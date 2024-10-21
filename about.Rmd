@@ -739,7 +739,7 @@ qflextable2(lvl0_strata_species$species$georef_sup_nominal, captionn = "Total af
 
 **Hypothèses: Les facteurs de conversion ne sont pas appliquables aux donnés sur des strates ayant des valeurs en nombre et en tonnes. **
 
-Proposition: On convertit les données du niveau 0 uniquement pour les strates qui possèdent une seule unité, en nombre, pour les dimensions suivantes espèces/engin/fishing_fleet/année/geographic_identifier.**  
+**Proposition: On convertit les données du niveau 0 uniquement pour les strates qui possèdent une seule unité, en nombre, pour les dimensions suivantes espèces/engin/fishing_fleet/année/geographic_identifier.**  
 On garde geographic_identifier comme dimension excluante car on a remarqué que certaines strates dupliquées pour des mêmes dimensions espèces/engin/year/fishing_fleet n'ont pas les mêmes géoreferencement pour les deux unités. Il est possible de définir les strates dupliquées no/mt autrement.
 
 On analyse les différences entre cette **méthode B** et la **méthode A**. 
@@ -835,11 +835,13 @@ raising_factors = (measurement_value - t) / no)
 
 ```
 
-
 ```{r include=FALSE}
 
 raisingfactorfromnumber_to_nominal_t_and_no <- calculate_raising_factors(nominal, lvl0,c("species", "year", "fishing_fleet", "gear_type"))%>% dplyr::mutate("Inf_1_kilo" = ifelse(raising_factors<0.001, TRUE, FALSE))  
 raisingfactorfromnumber_to_nominal_t_and_no_groupped <- raisingfactorfromnumber_to_nominal_t_and_no%>% dplyr::filter(!is.na(Inf_1_kilo)) %>% dplyr::group_by(Inf_1_kilo) %>% dplyr::summarise(Nombre_de_strates = n()) %>% dplyr::mutate(Pourcentage = (Nombre_de_strates*100)/ sum(Nombre_de_strates))
+
+raisingfactorfromnumber_to_nominal_t_and_no_10_kilos <- calculate_raising_factors(nominal, lvl0,c("species", "year", "fishing_fleet", "gear_type"))%>% dplyr::mutate("Inf_1_kilo" = ifelse(raising_factors<0.01, TRUE, FALSE))  
+raisingfactorfromnumber_to_nominal_t_and_no_10_kilos_groupped <- raisingfactorfromnumber_to_nominal_t_and_no_10_kilos%>% dplyr::filter(!is.na(Inf_1_kilo)) %>% dplyr::group_by(Inf_1_kilo) %>% dplyr::summarise(Nombre_de_strates = n()) %>% dplyr::mutate(Pourcentage = (Nombre_de_strates*100)/ sum(Nombre_de_strates))
 
 ```
 
@@ -865,13 +867,7 @@ raisingfactorfromnumber_to_nominal_t_and_no_groupped <- raisingfactorfromnumber_
 ```{r include=FALSE}
 
 
-qflextable2(raisingfactorfromnumber_to_nominal_t_and_no_groupped, caption = paste0("Number of strata inferior/superior to 1 kilo for analysis", tostring(c("species", "year", "fishing_fleet"))))
-
-```
-
-```{r fig.cap="Nombre de strates avec un facteur de conversion de plus ou de moins de 1 kilos (strate espèces/année/pavillon)"}
-
-qflextable2(raisingfactorfromnumber_to_nominal_t_and_no)
+qflextable2(raisingfactorfromnumber_to_nominal_t_and_no_groupped, caption = paste0("Number of strata inferior/superior to 1 kilo for analysis", toString(c("species", "year", "fishing_fleet"))))
 
 ```
 
@@ -891,6 +887,14 @@ qflextable(raisingfactorfromnumber_to_nominal_t_and_no%>% dplyr::filter((Inf_1_k
 ```
 
 Pour une analyse espèces/années il y a tout de même 5 trates pour lesquels il faudrait un facteur de conversion moyen de moins de 1 kilos pour ne pas dépasser les nominales, 3 d'entre elles sont celles qui sont déjà supérieurs en géoreferencées qu'en nominal mais deux autres strates sont donc ajoutées.
+
+On note que 75% des strates no/mt doivent avoir un facteur de conversion de moins de 10 kilos, pour ne pas dépasser les nominales.
+
+```{r}
+
+qflextable2(raisingfactorfromnumber_to_nominal_t_and_no_10_kilos_groupped, caption = paste0("Number of strata inferior/superior to 10 kilo for analysis", toString(c("species", "year", "fishing_fleet", "gear_type"))))
+```
+
 
 # Annexes
 
