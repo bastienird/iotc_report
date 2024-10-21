@@ -287,7 +287,7 @@ On reproduit cette méthode pour différentes strates, ce qui créera des résul
 
 ### Les données georeferencées sans correspondance avec les nominales pour les strates espèces années
 
-```{r echo=FALSE}
+```{r include=FALSE}
 
 lvl0_strata$`species, year`$sum_georef_no_nominal # 268 976.6
 lvl0_strata$`species, year`$tons_aggregated_georef # 268 976.6
@@ -456,7 +456,7 @@ render_subfigures(list(fishing_fleet_no_nom_st_ff, species_no_nom_st_ff), list("
 
 ```
 
-Ce sont surtout en tonnes des données pour SKJ et YFT, et notamment pour 09.2 (lignes mécanisées et lignes à cannes mécaniques). Elles représenent un total de `r sum_georef_no_nominal_st_ff` tonnes soit `r (sum_georef_no_nominal_st_ff *100 ) /lvl0 %>% dplyr::filter(measurement_unit == "t") %>% dplyr::summarise(sum = sum(measurement_value)) %>% dplyr::pull()`% des données totales.
+Ce sont surtout en tonnes des données pour SKJ et YFT, et notamment pour 09.2 (lignes mécanisées et lignes à cannes mécaniques). Elles représenent un total de `r sum_georef_no_nominal_st_ff` tonnes soit `r round((sum_georef_no_nominal_st_ff *100 ) /lvl0 %>% dplyr::filter(measurement_unit == "t") %>% dplyr::summarise(sum = sum(measurement_value)) %>% dplyr::pull())`% des données totales.
 
 ### Les données georeferencées supérieures aux nominales pour les strates espèces années pavillons
 
@@ -846,7 +846,7 @@ raisingfactorfromnumber_to_nominal_t_and_no_10_kilos_groupped <- raisingfactorfr
 ```
 
 
-```{r include=FALSE}
+```{r echo=FALSE}
 
 
 qflextable2(raisingfactorfromnumber_to_nominal_t_and_no_groupped, caption = paste0("Number of strata inferior/superior to 1 kilo for analysis ", toString(c("species", "year", "fishing_fleet", "gear_type"))))
@@ -864,7 +864,7 @@ raisingfactorfromnumber_to_nominal_t_and_no_groupped <- raisingfactorfromnumber_
 ```
 
 
-```{r include=FALSE}
+```{r echo=FALSE}
 
 
 qflextable2(raisingfactorfromnumber_to_nominal_t_and_no_groupped, caption = paste0("Number of strata inferior/superior to 1 kilo for analysis", toString(c("species", "year", "fishing_fleet"))))
@@ -892,7 +892,7 @@ On note que 75% des strates no/mt doivent avoir un facteur de conversion de moin
 
 ```{r}
 
-qflextable2(raisingfactorfromnumber_to_nominal_t_and_no_10_kilos_groupped, caption = paste0("Number of strata inferior/superior to 10 kilo for analysis", toString(c("species", "year", "fishing_fleet", "gear_type"))))
+qflextable2(raisingfactorfromnumber_to_nominal_t_and_no_10_kilos_groupped, caption = paste0("Number of strata inferior/superior to 10 kilos for analysis", toString(c("species", "year", "fishing_fleet", "gear_type"))))
 ```
 
 
@@ -953,7 +953,7 @@ sum_nei_nominal_gr <- lvl0_strata$`species, year, gear_type`$tons_nei_nominal
 
 ```
 
-```{r}
+```{r echo=FALSE}
 
 render_subfigures(list(gear_type_no_nom_st_gear, species_no_nom_st_gear), list("Codes espèces", "Codes engins"), general_title = "Proportion relative des captures géoreferencées sans strates correspondantes en nominales pour une comparaison sur des strates de dimensions espèces/années/engins")
 
