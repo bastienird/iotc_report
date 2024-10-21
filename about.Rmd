@@ -194,7 +194,7 @@ sum_georef_sup_nom <- sum(georef_sup_nominal$Difference, na.rm = TRUE)
 
 datatable2 <- function(df, options = list(scrollX = TRUE), ...) {
   df[] <- lapply(df, function(x) if(is.numeric(x)) round(x, 3) else x)
-  df <- df %>% head(10)
+  df <- df %>% head(100)
   # Combiner les options par défaut avec celles passées en argument
   options <- modifyList(list(scrollX = TRUE), options)
   
@@ -450,7 +450,7 @@ sum_nei_nominal_gr <- lvl0_strata$`species, year, fishing_fleet`$tons_nei_nomina
 
 ```
 
-```{r}
+```{r, results='asis'}
 
 render_subfigures(list(fishing_fleet_no_nom_st_ff, species_no_nom_st_ff), list("Codes espèces", "Codes pavillons"), general_title = "Proportion relative des captures géoreferencées sans strates correspondantes en nominales pour une comparaison sur des strates de dimensions espèces/années/pavillons")
 
@@ -520,7 +520,7 @@ nei_nom_st_ff_gr <- lvl0_strata$`species, year, gear_type, fishing_fleet`$tons_n
 
 ```
 
-Elles représentent un total de `r round(sum_no_sup_st_ff_gr,3)` tonnes soit `r round((sum_no_sup_st_ff_gr *100 ) /lvl0 %>% dplyr::filter(measurement_unit == "t") %>% dplyr::summarise(sum = sum(measurement_value)) %>% dplyr::pull())`% des données totales.
+Elles représentent un total de `r round(sum_no_sup_st_ff_gr,3)` tonnes soit `r round((sum_no_sup_st_ff_gr *100 ) /lvl0 %>% dplyr::filter(measurement_unit == "t") %>% dplyr::summarise(sum = sum(measurement_value)) %>% dplyr::pull(),3)`% des données totales.
 
 Le nombre et la valeur de ces strates sont supérieurs. Les données NEI dans le nominal ne permettent pas d'expliquer autant de différences. Les aggrégations d'espèces non plus. Quelques exemples illustratifs.
 
@@ -531,6 +531,7 @@ datatable2(lvl0_strata$`species, year, gear_type, fishing_fleet`$georef_sup_nomi
 
 ```
 
+---
 
 ```{r fig.cap="Georef_not_nom strate espèces/engins/années/fishing_fleet (valeurs en tonnes et en nombre)"}
 
@@ -941,7 +942,7 @@ datatable2(lvl0_strata$`species, year, gear_type`$georef_no_nominal_with_value)
 
 ```
 
-```{r}
+```{r include=FALSE}
 
 species_no_nom_st_gear <- pie_chart_2_default("species", georef_no_nom_st_gear, titre_1 = "",title_yes_no =FALSE)
 
@@ -953,7 +954,7 @@ sum_nei_nominal_gr <- lvl0_strata$`species, year, gear_type`$tons_nei_nominal
 
 ```
 
-```{r echo=FALSE}
+```{r, results='asis'}
 
 render_subfigures(list(gear_type_no_nom_st_gear, species_no_nom_st_gear), list("Codes espèces", "Codes engins"), general_title = "Proportion relative des captures géoreferencées sans strates correspondantes en nominales pour une comparaison sur des strates de dimensions espèces/années/engins")
 
