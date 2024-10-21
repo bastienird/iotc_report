@@ -210,6 +210,7 @@ datatable2 <- function(df, options = list(scrollX = TRUE), ...) {
 ```{r package}
 
 require(readr)
+require(futile.logger)
 require(reshape2)
 library(data.table)
 library(lubridate)
@@ -526,7 +527,7 @@ Le nombre et la valeur de ces strates sont supérieurs. Les données NEI dans le
 
 ```{r fig.cap="Georef_sup_to_nom strate espèces/engins/années/fishing_fleet"}
 
-datatable2(head(lvl0_strata$`species, year, gear_type, fishing_fleet`$georef_sup_nominal))
+datatable2(lvl0_strata$`species, year, gear_type, fishing_fleet`$georef_sup_nominal)
 
 ```
 
@@ -574,10 +575,9 @@ Au final, on voit que les données sup sont inférieures aux données non prése
 
 # Deuxième partie: Les facteurs de conversion IOTC: Conversion des données NO en T à l'origine de données Georef_sup_nom
 
-
 Les facteurs de conversion fournis par l'IOTC sont préalablement mappés pour correspondre aux standards CWP. On les utilise par la suite pour convertir les données en nombre pour un match de strates espèces/mois/gear_type/fishing_fleet/geographic_identifier (résolution plutôt fine).
 
-```{r message=FALSE, warning=FALSE, cache=FALSE}
+```{r message=FALSE, warning=FALSE, cache=FALSE, include=FALSE}
 
 CA_RAISED_FILTERED_NO_FLEET <- read_csv("_site/data/CA_RAISED_FILTERED_NO_FLEET.csv", guess_max = 0, 
                                         col_types = cols(AVG_WEIGHT = col_double()))%>%
@@ -744,7 +744,7 @@ On garde geographic_identifier comme dimension excluante car on a remarqué que 
 
 On analyse les différences entre cette **méthode B** et la **méthode A**. 
 
-```{r}
+```{r, cache=TRUE}
 
 georef_sup_nom_converted <- as.data.frame(lvl0_strata_upgraded$`species, year`$georef_sup_nominal) %>% dplyr::mutate(measurement_unit = "t") %>% dplyr::mutate(measurement_value = Difference) %>% dplyr::mutate(time_start = paste0(year , "-01-01"))
 
@@ -799,75 +799,107 @@ On voit qu'en ne convertissant que les strates qui sont uniquement en NO on réd
 
 ## Infirmation ou confirmation méthode B
 
-On calcule les facteurs de conversion moyen qu'il devrait y avoir pour que les données géoreferencées en nombre soit converties et atteignent les données nominales. Il y a un biais qui est que les données nominales doivent être supérieures aux données géoreferencées et donc on fait une conversion en même temps qu'un raise.
+On calcule les facteurs de conversion moyen qu'il devrait y avoir pour que les données géoreferencées en nombre soit converties et atteignent les données nominales. 
+On ne s'intéresse qu'aux strates ou il y a des données en nombre et en tonnes et on s'intéresse à la cohérence des facteurs de conversion pour atteindre 100% des données nominales pour la même strate. Si les facteurs de conversion sont trop importants on ne peut rien en conclure car les données nominales doivent être supérieures aux données géoreferencées et ici on fait une conversion en même temps qu'un raise. Cependant si les facteurs de conversion sont très bas, on peut supposer une incohérence entre les deux jeux de données.
+
+```{r}
+
+
+calculate_raising_factors <- function(nominal_df, lvl0_conv_df, strata_cols) {
+  
+  lvl0_conv_only_double_unit <-lvl0_conv_df %>% 
+        dplyr::mutate(year = lubridate::year(time_start)) %>%
+    dplyr::group_by(across(all_of(strata_cols))) %>%
+            dplyr::mutate(numberunit = n_distinct(measurement_unit)) %>% dplyr::rowwise()%>% dplyr::filter(numberunit != 1 | (numberunit == 2 &  measurement_unit == "no"))
+  
+  # Regrouper les données du dataframe nominal selon les strates et calculer la somme des valeurs
+  nominal_groupped <- nominal_df %>%
+    dplyr::mutate(year = lubridate::year(time_start)) %>%
+    dplyr::group_by(across(all_of(strata_cols))) %>%
+    dplyr::summarise(measurement_value = sum(measurement_value), .groups = 'drop')
+  
+  # Regrouper les données du dataframe lvl0_conv selon les strates et les unités de mesure, puis pivoter les données
+  lvl0_conv_groupped <- lvl0_conv_only_double_unit %>%
+    dplyr::mutate(year = lubridate::year(time_start)) %>%
+    dplyr::group_by(across(all_of(strata_cols)), measurement_unit) %>%
+    dplyr::summarise(measurement_value = sum(measurement_value), .groups = 'drop') %>%
+    tidyr::pivot_wider(names_from = measurement_unit, values_from = measurement_value)
+
+    # Effectuer la jointure entre les deux jeux de données
+  join_result <- dplyr::full_join(lvl0_conv_groupped, nominal_groupped, by = strata_cols) %>%
+    dplyr::mutate(      t = dplyr::coalesce(t, 0), 
+raising_factors = (measurement_value - t) / no) 
+  
+  return(join_result)
+}
+
+```
+
 
 ```{r include=FALSE}
 
-source("~/firms-gta/geoflow-tunaatlas/tunaatlas_scripts/generation/convert_number_to_nominal.R") #modified for geoflow
-# source("https://raw.githubusercontent.com/firms-gta/geoflow-tunaatlas/tunaatlas_script/convert_number_to_nominal.R")
-
-lvl0_conv_only_double_unit <-lvl0 %>% 
-          dplyr::mutate(time_start = as.character(time_start))%>% 
-                                                             dplyr::mutate(time_end = as.character(time_end)) %>% 
-          dplyr::group_by(time_start,time_end, species, fishing_fleet, gear_type, source_authority, fishing_mode) %>%
-            dplyr::mutate(numberunit = n_distinct(measurement_unit)) %>% dplyr::filter(numberunit != 1)
-
-try(convert_number_to_nominal_output_t_and_no <- convert_number_to_nominal(lvl0_conv_only_double_unit %>% dplyr::select(-c(measurement_type, measurement, measurement_status)), nominal%>% dplyr::select(-c(measurement_type, measurement, measurement_status)), raise_only_unmatched = FALSE, strata = c("species", "gear_type", "fishing_fleet", "year")))
-
-raisingfactorfromnumber_to_nominal_t_and_no <- readRDS(here::here("data/raisingfactorfromnumber_to_nominal.rds")) %>% dplyr::mutate("Inf_1_kilo" = ifelse(raising_factor<0.001, TRUE, FALSE))
-
-raisingfactorfromnumber_to_nominal_t_and_no%>% dplyr::filter(!is.na(Inf_1_kilo)) %>% dplyr::group_by(Inf_1_kilo) %>% dplyr::summarise(Nombre_de_strates = n())
-
+raisingfactorfromnumber_to_nominal_t_and_no <- calculate_raising_factors(nominal, lvl0,c("species", "year", "fishing_fleet", "gear_type"))%>% dplyr::mutate("Inf_1_kilo" = ifelse(raising_factors<0.001, TRUE, FALSE))  
+raisingfactorfromnumber_to_nominal_t_and_no_groupped <- raisingfactorfromnumber_to_nominal_t_and_no%>% dplyr::filter(!is.na(Inf_1_kilo)) %>% dplyr::group_by(Inf_1_kilo) %>% dplyr::summarise(Nombre_de_strates = n()) %>% dplyr::mutate(Pourcentage = (Nombre_de_strates*100)/ sum(Nombre_de_strates))
 
 ```
 
-En ne regardant que les strates ou il y a des données en deux unités, on constate qu'il y a environ 14000 strates pour lesquelles il faudrait un facteur de conversion de monis de 1 kilos pour ne pas dépasser les géoreferencées.
+
+```{r include=FALSE}
+
+
+qflextable2(raisingfactorfromnumber_to_nominal_t_and_no_groupped, caption = paste0("Number of strata inferior/superior to 1 kilo for analysis ", toString(c("species", "year", "fishing_fleet", "gear_type"))))
+
+```
+
+Parmi toutes les strates qui ont des données en nombre et en tonnes, on constate qu'il y a 227 strates pour lesquelles il faudrait un facteur de conversion de moins de 1 kilos pour ne pas dépasser les géoreferencées pour une comparaison engin/espèces/année/pavillon. Cela représente 42% des strates pour lesquelles des facteurs de conversion sont inférieures à 1 kilos ça ne permet pas d'infirmer ou de confirmer l'hypothèse que les strates no/mt sont celles qui posent problème (on aurait pu la confirmer si tous les facteurs de conversion étaient inférieures à 1 kilos).
 
 ```{r}
 
-qflextable2(raisingfactorfromnumber_to_nominal_t_and_no, captionn = "Nombre de strates avec un facteur de conversion de plus ou de moins de 1 kilos (strate engin/espèces/année/pavillon)")
+
+raisingfactorfromnumber_to_nominal_t_and_no <- calculate_raising_factors(nominal, lvl0,c("species", "year", "fishing_fleet"))%>% dplyr::mutate("Inf_1_kilo" = ifelse(raising_factors<0.001, TRUE, FALSE))  
+raisingfactorfromnumber_to_nominal_t_and_no_groupped <- raisingfactorfromnumber_to_nominal_t_and_no%>% dplyr::filter(!is.na(Inf_1_kilo)) %>% dplyr::group_by(Inf_1_kilo) %>% dplyr::summarise(Nombre_de_strates = n()) %>% dplyr::mutate(Pourcentage = (Nombre_de_strates*100)/ sum(Nombre_de_strates))
 
 ```
 
-Ca rerésente environ 12% du nombre de strates ayant des doubles unités pour un même engin/espèces/année/pavillon. On pourrait affiner par espèces mais cela paraît incohérent.
 
-```{r}
+```{r include=FALSE}
 
-try(convert_number_to_nominal_output_t_and_no <- convert_number_to_nominal(lvl0_conv_only_double_unit %>% dplyr::select(-c(measurement_type, measurement, measurement_status)), nominal%>% dplyr::select(-c(measurement_type, measurement, measurement_status)), raise_only_unmatched = FALSE, strata = c("species", "fishing_fleet", "year")))
-raisingfactorfromnumber_to_nominal_t_and_no <- readRDS(here::here("data/raisingfactorfromnumber_to_nominal.rds")) %>% dplyr::mutate("Inf_1_kilo" = ifelse(raising_factor<0.001, TRUE, FALSE))
 
-raisingfactorfromnumber_to_nominal_t_and_no%>% dplyr::filter(!is.na(Inf_1_kilo)) %>% dplyr::group_by(Inf_1_kilo) %>% dplyr::summarise(Nombre_de_strates = n())
-```
-
-```{r}
-
-qflextable2(raisingfactorfromnumber_to_nominal_t_and_no, captionn = "Nombre de strates avec un facteur de conversion de plus ou de moins de 1 kilos (strate espèces/année/pavillon)")
+qflextable2(raisingfactorfromnumber_to_nominal_t_and_no_groupped, caption = paste0("Number of strata inferior/superior to 1 kilo for analysis", tostring(c("species", "year", "fishing_fleet"))))
 
 ```
 
-Même en s'affranchissant de l'engin qui posait problème il y a toujours environ 11% de facteurs de conversion qui paraissent incohérents.
+```{r fig.cap="Nombre de strates avec un facteur de conversion de plus ou de moins de 1 kilos (strate espèces/année/pavillon)"}
 
-```{r}
-try(convert_number_to_nominal_output_species_year <- convert_number_to_nominal(lvl0 %>% dplyr::select(-c(measurement_type, measurement, measurement_status)), nominal%>% dplyr::select(-c(measurement_type, measurement, measurement_status)), raise_only_unmatched = FALSE, strata = c("species", "year")))
-
-raisingfactorfromnumber_to_nominal_t_and_no_only_species_year <- readRDS(here::here("data/raisingfactorfromnumber_to_nominal.rds")) %>% dplyr::mutate("Inf_1_kilo" = ifelse(raising_factor<0.001, TRUE, FALSE))
-
-raisingfactorfromnumber_to_nominal_t_and_no_only_species_year%>% dplyr::filter(!is.na(Inf_1_kilo)) %>% dplyr::group_by(Inf_1_kilo) %>% dplyr::summarise(Nombre_de_strates = n())
+qflextable2(raisingfactorfromnumber_to_nominal_t_and_no)
 
 ```
 
-```{r}
+Même en s'affranchissant de l'engin (dimension qui posait problème précédemment), il y a toujours environ 32% de facteurs de conversion qui sont inférieurs à 1 kilos.
 
-qflextable2(raisingfactorfromnumber_to_nominal_t_and_no_only_species_year, captionn = "Nombre de strates avec un facteur de conversion de plus ou de moins de 1 kilos (strate espèces/année)")
+```{r include=FALSE}
+
+raisingfactorfromnumber_to_nominal_t_and_no <- calculate_raising_factors(nominal, lvl0,c("species", "year"))%>% dplyr::mutate("Inf_1_kilo" = ifelse(raising_factors<0.001, TRUE, FALSE))  
+raisingfactorfromnumber_to_nominal_t_and_no_groupped <- raisingfactorfromnumber_to_nominal_t_and_no%>% dplyr::filter(!is.na(Inf_1_kilo)) %>% dplyr::group_by(Inf_1_kilo) %>% dplyr::summarise(Nombre_de_strates = n()) %>% dplyr::mutate(Pourcentage = (Nombre_de_strates*100)/ sum(Nombre_de_strates))
 
 ```
+
+```{r fig.cap="Strates avec un facteur de conversion de plus ou de moins de 1 kilos (strate espèces/année)"}
+
+qflextable(raisingfactorfromnumber_to_nominal_t_and_no%>% dplyr::filter((Inf_1_kilo)))
+
+```
+
+Pour une analyse espèces/années il y a tout de même 5 trates pour lesquels il faudrait un facteur de conversion moyen de moins de 1 kilos pour ne pas dépasser les nominales, 3 d'entre elles sont celles qui sont déjà supérieurs en géoreferencées qu'en nominal mais deux autres strates sont donc ajoutées.
 
 # Annexes
 
 ## Fonction de comparaison georef to nominal 
 
 ```{r echo=TRUE}
+
 compare_nominal_georef_corrected
+
 ```
 
 ## Exploration des georef_sup_to_nom avec fishing_fleet
@@ -934,6 +966,7 @@ datatable2((lvl0_strata$`species, year, gear_type`$georef_sup_nominal))
 ```
 
 ```{r echo=FALSE}
+
 sum_georef_sup_nominal_st_gear <- lvl0_strata$`species, year, gear_type, fishing_fleet`$sum_georef_sup_nom
 georef_sup_nom_andgeoref_no_nom_st_gear <- lvl0_strata$`species, year, gear_type`$sum_georef_no_nominal + lvl0_strata$`species, year, gear_type`$sum_georef_sup_nom # 587 284.4  + 4 209 992 = 4 797 276
 # lvl0_strata$`species, year, gear_type`$tons_aggregated_georef # = 268 977
@@ -946,7 +979,7 @@ Elles représentent un total de `r round(sum_georef_sup_nominal_st_gear,3)` tonn
 
 ### Conclusion pour la strate espèces/années/engins
 
-L'apparition de strates par rapport à la comparaison précédente espèces/années nous permet de faire l'hypothèse qu'il y a un report des données d'un certain engin sur d'autres (faisant que la somme pour années/espèces n'est pas sup au nom). Si c'est le cas, faut-il garder cette représentation de chaque engin pour chaque classe ou juste retirer la dimension engins pour certaines strates car les nominales ne se correspondent pas. Si on ajoute les données sans correspondance ou inférieures on obtient un total de `r georef_sup_nom_andgeoref_no_nom_st_gear` tonnes, il n'y a ni "99.9" ni données aggregées du type TUN, TUS, BIL dans les nominales qui peuvent expliquer ces problèmes.
+L'apparition de strates par rapport à la comparaison précédente espèces/années nous permet de faire l'hypothèse qu'il y a un report des données d'un certain engin sur d'autres (faisant que la somme pour années/espèces n'est pas sup au nom). Si c'est le cas, faut-il garder cette représentation de chaque engin pour chaque classe ou juste retirer la dimension engins pour certaines strates car les nominales ne se correspondent pas. Si on ajoute les données sans correspondance ou inférieures on obtient un total de `r round(georef_sup_nom_andgeoref_no_nom_st_gear,3)` tonnes, il n'y a ni "99.9" ni données aggregées du type TUN, TUS, BIL dans les nominales qui peuvent expliquer ces problèmes.
 
 L'aggregation ou les données en gear 99.9 ne permettent pas d'expliquer ni les georef no nominales, ni les georef_sup_nom
 
