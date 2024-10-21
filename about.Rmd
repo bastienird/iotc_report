@@ -194,7 +194,7 @@ sum_georef_sup_nom <- sum(georef_sup_nominal$Difference, na.rm = TRUE)
 
 datatable2 <- function(df, options = list(scrollX = TRUE), ...) {
   df[] <- lapply(df, function(x) if(is.numeric(x)) round(x, 3) else x)
-  # df <- df %>% head(10)
+  df <- df %>% head(10)
   # Combiner les options par défaut avec celles passées en argument
   options <- modifyList(list(scrollX = TRUE), options)
   
@@ -579,7 +579,7 @@ Les facteurs de conversion fournis par l'IOTC sont préalablement mappés pour c
 
 ```{r message=FALSE, warning=FALSE, cache=FALSE, include=FALSE}
 
-CA_RAISED_FILTERED_NO_FLEET <- read_csv("data/CA_RAISED_FILTERED_NO_FLEET.csv", guess_max = 0, 
+CA_RAISED_FILTERED_NO_FLEET <- read_csv("data/CA_RAISED_FILTERED_NO_FLEET_REDUCED.csv", guess_max = 0, 
                                         col_types = cols(AVG_WEIGHT = col_double()))%>%
   mutate(geographic_identifier = FISHING_GROUND_CODE,fishing_mode = CATCH_SCHOOL_TYPE_CODE,
          unit = "no", unit_target = "t", species = SPECIES_CODE, gear_type = GEAR_CODE,source_authority = "IOTC",
