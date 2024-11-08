@@ -912,8 +912,8 @@ compare_nominal_georef_corrected
 ```{r fig.cap = "Georef sup to nom species/gear_type/fishing_fleet/year"}
 
 df <- georef_sup_nom_st_gear_ff %>% dplyr::mutate_if(is.numeric, round)
-colnames(df) <- c("Species", "Year", "Fleet", "Nominal_Value", 
-                  "Georef_Tons", "Diff", "Unit", "Value", "Start_Time")
+# colnames(df) <- c("Species", "Year", "Fleet", "Nominal_Value", 
+#                   "Georef_Tons", "Diff", "Unit", "Value", "Start_Time")
 
 datatable2(df)
 
@@ -923,8 +923,8 @@ datatable2(df)
 ```{r fig.cap = "Georef sup to nom species/fishing_fleet/year"}
 
 df <- georef_sup_nom_st_ff %>% dplyr::mutate_if(is.numeric, round)
-colnames(df) <- c("Species", "Year", "Fleet", "Nominal_Value", 
-                  "Georef_Tons", "Diff", "Unit", "Value", "Start_Time")
+# colnames(df) <- c("Species", "Year", "Fleet", "Nominal_Value", 
+#                   "Georef_Tons", "Diff", "Unit", "Value", "Start_Time")
 
 datatable2(df)
 
