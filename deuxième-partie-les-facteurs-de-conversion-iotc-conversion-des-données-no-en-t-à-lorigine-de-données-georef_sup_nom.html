@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Deuxième partie: Les facteurs de conversion IOTC: Conversion des données NO en T à l’origine de données Georef_sup_nom | IOTC Data Analisys (Comparison Georef to Global and conversion factors)</title>
+  <meta name="description" content="2 Deuxième partie: Les facteurs de conversion IOTC: Conversion des données NO en T à l’origine de données Georef_sup_nom | IOTC Data Analisys (Comparison Georef to Global and conversion factors)" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 Deuxième partie: Les facteurs de conversion IOTC: Conversion des données NO en T à l’origine de données Georef_sup_nom | IOTC Data Analisys (Comparison Georef to Global and conversion factors)" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 Deuxième partie: Les facteurs de conversion IOTC: Conversion des données NO en T à l’origine de données Georef_sup_nom | IOTC Data Analisys (Comparison Georef to Global and conversion factors)" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html"/>
+<link rel="next" href="annexes.html"/>
+<style type="text/css">
+p.abstract{
+  text-align: center;
+  font-weight: bold;
+}
+div.abstract{
+  margin: auto;
+  width: 90%;
+}
+</style>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="site_libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="site_libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="site_libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="site_libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="site_libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="site_libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="site_libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="site_libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="site_libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="site_libs/tabwid-1.1.3/tabwid.css" rel="stylesheet" />
+<script src="site_libs/tabwid-1.1.3/tabwid.js"></script>
+<link href="site_libs/htmltools-fill-0.5.8/fill.css" rel="stylesheet" />
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.33/datatables.js"></script>
+<link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html"><a href="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html"><i class="fa fa-check"></i><b>1</b> Première partie: Données géoreferencées supérieures aux données nominales avec ou sans correspondance</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html"><a href="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html#explication-de-la-méthode-danalyse-exemple-pour-le-cas-espècesannées"><i class="fa fa-check"></i><b>1.1</b> Explication de la méthode d’analyse: exemple pour le cas espèces/années</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html"><a href="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html#les-données-georeferencées-sans-correspondance-avec-les-nominales-pour-les-strates-espèces-années"><i class="fa fa-check"></i><b>1.1.1</b> Les données georeferencées sans correspondance avec les nominales pour les strates espèces années</a></li>
+<li class="chapter" data-level="1.1.2" data-path="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html"><a href="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html#les-données-georeferencées-supérieures-aux-nominales-pour-les-strates-espèces-années"><i class="fa fa-check"></i><b>1.1.2</b> Les données georeferencées supérieures aux nominales pour les strates espèces années</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html"><a href="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html#exemple-pour-le-cas-global-avec-des-strates-pour-chaque-dimension"><i class="fa fa-check"></i><b>1.2</b> Exemple pour le cas global avec des strates pour chaque dimension</a></li>
+<li class="chapter" data-level="1.3" data-path="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html"><a href="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html#comparaison-strates-espèces-années-fishing_fleet-et-espèces-années-gear_type"><i class="fa fa-check"></i><b>1.3</b> Comparaison strates espèces années fishing_fleet et espèces années gear_type</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html"><a href="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html#georef_sup_nom"><i class="fa fa-check"></i><b>1.3.1</b> Georef_sup_nom</a></li>
+<li class="chapter" data-level="1.3.2" data-path="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html"><a href="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html#georef_no_nom"><i class="fa fa-check"></i><b>1.3.2</b> Georef_no_nom</a></li>
+<li class="chapter" data-level="1.3.3" data-path="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html"><a href="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html#conclusion-sur-le-choix-des-dimensions"><i class="fa fa-check"></i><b>1.3.3</b> Conclusion sur le choix des dimensions</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html"><a href="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html#strates-espèces-années-pavillons"><i class="fa fa-check"></i><b>1.4</b> Strates espèces années pavillons</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html"><a href="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html#les-données-géoreferencées-sans-correspondance-nominales-annéesespècespavillons"><i class="fa fa-check"></i><b>1.4.1</b> Les données géoreferencées sans correspondance nominales (années/espèces/pavillons)</a></li>
+<li class="chapter" data-level="1.4.2" data-path="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html"><a href="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html#les-données-georeferencées-supérieures-aux-nominales-pour-les-strates-espèces-années-pavillons"><i class="fa fa-check"></i><b>1.4.2</b> Les données georeferencées supérieures aux nominales pour les strates espèces années pavillons</a></li>
+<li class="chapter" data-level="1.4.3" data-path="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html"><a href="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html#conclusion-pour-la-strate-espècesannéespavillons"><i class="fa fa-check"></i><b>1.4.3</b> Conclusion pour la strate espèces/années/pavillons</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html"><a href="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html#strates-espèces-années-engins-pavillons"><i class="fa fa-check"></i><b>1.5</b> Strates espèces années engins pavillons</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="deuxième-partie-les-facteurs-de-conversion-iotc-conversion-des-données-no-en-t-à-lorigine-de-données-georef_sup_nom.html"><a href="deuxième-partie-les-facteurs-de-conversion-iotc-conversion-des-données-no-en-t-à-lorigine-de-données-georef_sup_nom.html"><i class="fa fa-check"></i><b>2</b> Deuxième partie: Les facteurs de conversion IOTC: Conversion des données NO en T à l’origine de données Georef_sup_nom</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="deuxième-partie-les-facteurs-de-conversion-iotc-conversion-des-données-no-en-t-à-lorigine-de-données-georef_sup_nom.html"><a href="deuxième-partie-les-facteurs-de-conversion-iotc-conversion-des-données-no-en-t-à-lorigine-de-données-georef_sup_nom.html#conversion-de-toutes-les-données-no-méthode-a"><i class="fa fa-check"></i><b>2.1</b> Conversion de toutes les données NO <strong><em>(méthode A)</em></strong></a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="deuxième-partie-les-facteurs-de-conversion-iotc-conversion-des-données-no-en-t-à-lorigine-de-données-georef_sup_nom.html"><a href="deuxième-partie-les-facteurs-de-conversion-iotc-conversion-des-données-no-en-t-à-lorigine-de-données-georef_sup_nom.html#au-total-par-espèces"><i class="fa fa-check"></i><b>2.1.1</b> Au total par espèces</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="deuxième-partie-les-facteurs-de-conversion-iotc-conversion-des-données-no-en-t-à-lorigine-de-données-georef_sup_nom.html"><a href="deuxième-partie-les-facteurs-de-conversion-iotc-conversion-des-données-no-en-t-à-lorigine-de-données-georef_sup_nom.html#conversion-des-données-no-pour-strate-uniquement-no-méthode-b"><i class="fa fa-check"></i><b>2.2</b> Conversion des données NO pour strate uniquement NO <strong><em>(méthode B)</em></strong></a></li>
+<li class="chapter" data-level="2.3" data-path="deuxième-partie-les-facteurs-de-conversion-iotc-conversion-des-données-no-en-t-à-lorigine-de-données-georef_sup_nom.html"><a href="deuxième-partie-les-facteurs-de-conversion-iotc-conversion-des-données-no-en-t-à-lorigine-de-données-georef_sup_nom.html#infirmation-ou-confirmation-méthode-b"><i class="fa fa-check"></i><b>2.3</b> Infirmation ou confirmation méthode B</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="annexes.html"><a href="annexes.html"><i class="fa fa-check"></i><b>3</b> Annexes</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="annexes.html"><a href="annexes.html#fonction-de-comparaison-georef-to-nominal"><i class="fa fa-check"></i><b>3.1</b> Fonction de comparaison georef to nominal</a></li>
+<li class="chapter" data-level="3.2" data-path="annexes.html"><a href="annexes.html#exploration-des-georef_sup_to_nom-avec-fishing_fleet"><i class="fa fa-check"></i><b>3.2</b> Exploration des georef_sup_to_nom avec fishing_fleet</a></li>
+<li class="chapter" data-level="3.3" data-path="annexes.html"><a href="annexes.html#strates-espèces-années-engins"><i class="fa fa-check"></i><b>3.3</b> Strates espèces années engins</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="annexes.html"><a href="annexes.html#les-données-géoreferencées-sans-correspondance-nominales-annéesespècesengins"><i class="fa fa-check"></i><b>3.3.1</b> Les données géoreferencées sans correspondance nominales (années/espèces/engins)</a></li>
+<li class="chapter" data-level="3.3.2" data-path="annexes.html"><a href="annexes.html#les-données-georeferencées-supérieures-aux-nominales-pour-les-strates-espèces-années-engin"><i class="fa fa-check"></i><b>3.3.2</b> Les données georeferencées supérieures aux nominales pour les strates espèces années engin</a></li>
+<li class="chapter" data-level="3.3.3" data-path="annexes.html"><a href="annexes.html#conclusion-pour-la-strate-espècesannéesengins"><i class="fa fa-check"></i><b>3.3.3</b> Conclusion pour la strate espèces/années/engins</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">IOTC Data Analisys (Comparison Georef to Global and conversion factors)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="deuxième-partie-les-facteurs-de-conversion-iotc-conversion-des-données-no-en-t-à-lorigine-de-données-georef_sup_nom" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">2</span> Deuxième partie: Les facteurs de conversion IOTC: Conversion des données NO en T à l’origine de données Georef_sup_nom<a href="deuxième-partie-les-facteurs-de-conversion-iotc-conversion-des-données-no-en-t-à-lorigine-de-données-georef_sup_nom.html#deuxième-partie-les-facteurs-de-conversion-iotc-conversion-des-données-no-en-t-à-lorigine-de-données-georef_sup_nom" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Les facteurs de conversion fournis par l’IOTC sont préalablement mappés pour correspondre aux standards CWP. On les utilise par la suite pour convertir les données en nombre pour un match de strates espèces/mois/gear_type/fishing_fleet/geographic_identifier (résolution plutôt fine).</p>
+<!-- Parmi ces données, il y en a qui ont des facteurs de conversion identiques pour une même strate engin/espèces/fishing_fleet/time_start/geographic_identifier, cela semble provenir du mapping. Ca concerne environ 0. On propose de prendre le minimum des facteurs de conversion pour chaque strate en double. Plus d'actualité-->
+<div id="conversion-de-toutes-les-données-no-méthode-a" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Conversion de toutes les données NO <strong><em>(méthode A)</em></strong><a href="deuxième-partie-les-facteurs-de-conversion-iotc-conversion-des-données-no-en-t-à-lorigine-de-données-georef_sup_nom.html#conversion-de-toutes-les-données-no-méthode-a" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>On regarde l’impact de la conversion de toutes les captures en “no” sur les strates georef_sup_nom. Il n’y aura pas d’impact sur le nombre de strates georef_no_nom mais uniquement sur les valeurs totales, au vu du fait que pour les strates espèces/années, il n’y a que des espèces aggrégées en georef_no_nom on s’affranchit par la suite de l’analyse de ces strates.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:subfigures-95"></span>
+<img src="about_files/figure-html/subfigures-95-1.png" alt="Characteristics of data sup to nom after and before conversion for strata species/year" width="50%" /><img src="about_files/figure-html/subfigures-95-2.png" alt="Characteristics of data sup to nom after and before conversion for strata species/year" width="50%" />
+<p class="caption">
+Figure 2.1: Characteristics of data sup to nom after and before conversion for strata species/year
+</p>
+</div>
+<p>La conversion de toute les données NO concerne surtout BET et ALB qui crée des géoreferencées sup_nom par rapport au level0, ainsi que SWOIl n’y a pas de création de georef_sup_nom pour SKJ.</p>
+<p>Les années concernées sont plus nombreuses également, ce ne sont pas juste les mêmes années qui sont augmentées.</p>
+<p>La différence totale en tonnes est de plus de 2 millions de tonnes en plus (pour strates espèces/années), c’est à dire environ 10% de la valeur en tonnes du niveau 0 et 7% de la valeur après conversion.</p>
+<div id="au-total-par-espèces" class="section level3 hasAnchor" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Au total par espèces<a href="deuxième-partie-les-facteurs-de-conversion-iotc-conversion-des-données-no-en-t-à-lorigine-de-données-georef_sup_nom.html#au-total-par-espèces" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="tabwid"><style>.cl-f2773f0d{}.cl-f2773efe{font-family:'DejaVu Sans';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-f2773eff{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-f2773f00{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-f2773f01{width:0.058in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f2773f02{width:0.171in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f2773f03{width:0.19in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f2773f04{width:0.081in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f2773f05{width:0.058in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f2773f06{width:0.171in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f2773f07{width:0.19in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f2773f08{width:0.081in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f2773f09{width:0.058in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f2773f0a{width:0.171in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f2773f0b{width:0.19in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f2773f0c{width:0.081in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-f2773f0d'>
+
+<caption style="display:table-caption;margin:0pt;text-align:center;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:3pt;padding-bottom:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;">
+<span id="tab:unnamed-chunk-35">Table 2.1: </span><span>Total after conversion for each species and comparison to nominal (on corresponding years)</span>
+</caption>
+
+<thead><tr style="overflow-wrap:break-word;"><th class="cl-f2773f01"><p class="cl-f2773eff"><span class="cl-f2773efe">species</span></p></th><th class="cl-f2773f02"><p class="cl-f2773f00"><span class="cl-f2773efe">measurement_value_nominal</span></p></th><th class="cl-f2773f03"><p class="cl-f2773f00"><span class="cl-f2773efe">measurement_value_georef_tons</span></p></th><th class="cl-f2773f04"><p class="cl-f2773f00"><span class="cl-f2773efe">Difference</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-f2773f05"><p class="cl-f2773eff"><span class="cl-f2773efe">ALB</span></p></td><td class="cl-f2773f06"><p class="cl-f2773f00"><span class="cl-f2773efe">1,715,769</span></p></td><td class="cl-f2773f07"><p class="cl-f2773f00"><span class="cl-f2773efe">2,889,797</span></p></td><td class="cl-f2773f08"><p class="cl-f2773f00"><span class="cl-f2773efe">1,174,028.3</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f2773f05"><p class="cl-f2773eff"><span class="cl-f2773efe">BET</span></p></td><td class="cl-f2773f06"><p class="cl-f2773f00"><span class="cl-f2773efe">4,897,998</span></p></td><td class="cl-f2773f07"><p class="cl-f2773f00"><span class="cl-f2773efe">6,232,417</span></p></td><td class="cl-f2773f08"><p class="cl-f2773f00"><span class="cl-f2773efe">1,334,418.7</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f2773f09"><p class="cl-f2773eff"><span class="cl-f2773efe">SWO</span></p></td><td class="cl-f2773f0a"><p class="cl-f2773f00"><span class="cl-f2773efe">1,037,261</span></p></td><td class="cl-f2773f0b"><p class="cl-f2773f00"><span class="cl-f2773efe">1,477,283</span></p></td><td class="cl-f2773f0c"><p class="cl-f2773f00"><span class="cl-f2773efe">440,022.3</span></p></td></tr></tbody></table></div>
+</div>
+</div>
+<div id="conversion-des-données-no-pour-strate-uniquement-no-méthode-b" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Conversion des données NO pour strate uniquement NO <strong><em>(méthode B)</em></strong><a href="deuxième-partie-les-facteurs-de-conversion-iotc-conversion-des-données-no-en-t-à-lorigine-de-données-georef_sup_nom.html#conversion-des-données-no-pour-strate-uniquement-no-méthode-b" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Hypothèses: Les facteurs de conversion ne sont pas appliquables aux donnés sur des strates ayant des valeurs en nombre et en tonnes. </strong></p>
+<p><strong>Proposition: On convertit les données du niveau 0 uniquement pour les strates qui possèdent une seule unité, en nombre, pour les dimensions suivantes espèces/engin/fishing_fleet/année/geographic_identifier.</strong><br />
+On garde geographic_identifier comme dimension excluante car on a remarqué que certaines strates dupliquées pour des mêmes dimensions espèces/engin/year/fishing_fleet n’ont pas les mêmes géoreferencement pour les deux unités. Il est possible de définir les strates dupliquées no/mt autrement.</p>
+<p>On analyse les différences entre cette <strong>méthode B</strong> et la <strong>méthode A</strong>.</p>
+<div class="tabwid"><style>.cl-f32d16bd{}.cl-f2773f0e{font-family:'DejaVu Sans';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-f32d16ac{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-f32d16ad{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-f32d16ae{width:0.116in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f32d16af{width:0.092in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f32d16b0{width:0.088in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f32d16b1{width:0.085in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f32d16b2{width:0.12in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f32d16b3{width:0.116in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f32d16b4{width:0.092in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f32d16b5{width:0.088in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f32d16b6{width:0.085in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f32d16b7{width:0.12in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f32d16b8{width:0.116in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f32d16b9{width:0.092in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f32d16ba{width:0.088in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f32d16bb{width:0.085in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f32d16bc{width:0.12in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-f32d16bd'>
+
+<caption style="display:table-caption;margin:0pt;text-align:center;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:3pt;padding-bottom:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;">
+<span id="tab:unnamed-chunk-37">Table 2.2: </span><span>Difference between two methods of raising</span>
+</caption>
+
+<thead><tr style="overflow-wrap:break-word;"><th class="cl-f32d16ae"><p class="cl-f32d16ac"><span class="cl-f2773f0e">Type of data</span></p></th><th class="cl-f32d16af"><p class="cl-f32d16ad"><span class="cl-f2773f0e">Méthode A</span></p></th><th class="cl-f32d16b0"><p class="cl-f32d16ad"><span class="cl-f2773f0e">Méthode B</span></p></th><th class="cl-f32d16b1"><p class="cl-f32d16ad"><span class="cl-f2773f0e">Difference</span></p></th><th class="cl-f32d16b2"><p class="cl-f32d16ad"><span class="cl-f2773f0e">Difference (in %)</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-f32d16b3"><p class="cl-f32d16ac"><span class="cl-f2773f0e">Georef-no-nom</span></p></td><td class="cl-f32d16b4"><p class="cl-f32d16ad"><span class="cl-f2773f0e">268,976.6</span></p></td><td class="cl-f32d16b5"><p class="cl-f32d16ad"><span class="cl-f2773f0e">268,976.61</span></p></td><td class="cl-f32d16b6"><p class="cl-f32d16ad"><span class="cl-f2773f0e">0</span></p></td><td class="cl-f32d16b7"><p class="cl-f32d16ad"><span class="cl-f2773f0e">0.00</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f32d16b8"><p class="cl-f32d16ac"><span class="cl-f2773f0e">Georef-sup-nom</span></p></td><td class="cl-f32d16b9"><p class="cl-f32d16ad"><span class="cl-f2773f0e">3,227,908.2</span></p></td><td class="cl-f32d16ba"><p class="cl-f32d16ad"><span class="cl-f2773f0e">41,540.23</span></p></td><td class="cl-f32d16bb"><p class="cl-f32d16ad"><span class="cl-f2773f0e">-3,186,368</span></p></td><td class="cl-f32d16bc"><p class="cl-f32d16ad"><span class="cl-f2773f0e">-98.71</span></p></td></tr></tbody></table></div>
+<p>Il y a moins de données problématiques créées avec la méthode B.</p>
+<p><img src="about_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p>On voit qu’avec la méthode B on ajoute uniquement des données georef_sup_nom pour une espèce: BET et pas pour YFT. C’est plus cohérent avec la répartition (attention qui concerne uniquement 3 strates) des données georef_sup_nom du level0. Cette méthode réduit également l’augmentation importante (46%) en proportion des données georef_sup_nom pour BET.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:subfigures-104"></span>
+<img src="about_files/figure-html/subfigures-104-1.png" alt="Comparaison des valeurs totales de strates supérieures en géoreferencées qu'en nominales au cours du temps pour les strates (year/species)" width="50%" /><img src="about_files/figure-html/subfigures-104-2.png" alt="Comparaison des valeurs totales de strates supérieures en géoreferencées qu'en nominales au cours du temps pour les strates (year/species)" width="50%" />
+<p class="caption">
+Figure 2.2: Comparaison des valeurs totales de strates supérieures en géoreferencées qu’en nominales au cours du temps pour les strates (year/species)
+</p>
+</div>
+<p>On voit qu’en ne convertissant que les strates qui sont uniquement en NO on réduit fortement le total des données geref_sup_nom par rapport à une conversion totale (fig.1). Il reste un ajout par rapport aux données initiales mais cela reste relativement marginal/cohérent avec les données de départ, en plus de concerner uniquement des données avant 1990 (fig.2).</p>
+<p><strong>Conclusion: Le fort dépassement des données nominales par les données géoreferencées converties pourrait venir soit :
+- d’un problème lors de la méthode de conversion
+- d’un problème sur les données avec deux unités (qui seraient en fait des dupliquas)
+- de facteurs de conversion calculés sur la base de ces données avec par exmemple un calcul effectué sur la base des nominales mais sans retrait de l’équivalent en tonnes géoreferencés.</strong></p>
+</div>
+<div id="infirmation-ou-confirmation-méthode-b" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Infirmation ou confirmation méthode B<a href="deuxième-partie-les-facteurs-de-conversion-iotc-conversion-des-données-no-en-t-à-lorigine-de-données-georef_sup_nom.html#infirmation-ou-confirmation-méthode-b" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>On calcule les facteurs de conversion moyen qu’il devrait y avoir pour que les données géoreferencées en nombre soit converties et atteignent les données nominales.
+On ne s’intéresse qu’aux strates ou il y a des données en nombre et en tonnes et on s’intéresse à la cohérence des facteurs de conversion pour atteindre 100% des données nominales pour la même strate. Si les facteurs de conversion sont trop importants on ne peut rien en conclure car les données nominales doivent être supérieures aux données géoreferencées et ici on fait une conversion en même temps qu’un raise. Cependant si les facteurs de conversion sont très bas, on peut supposer une incohérence entre les deux jeux de données.</p>
+<div class="tabwid"><style>.cl-fedbff87{}.cl-fedbff7c{font-family:'DejaVu Sans';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-fedbff7d{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-fedbff7e{width:0.124in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fedbff7f{width:0.22in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fedbff80{width:0.156in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fedbff81{width:0.124in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fedbff82{width:0.22in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fedbff83{width:0.156in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fedbff84{width:0.124in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fedbff85{width:0.22in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fedbff86{width:0.156in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-fedbff87'>
+
+<caption style="display:table-caption;margin:0pt;text-align:center;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:3pt;padding-bottom:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;">
+<span id="tab:unnamed-chunk-43">Table 2.3: </span><span>Number of strata inferior/superior to 1 kilo for analysis species, year, fishing_fleet, gear_type</span>
+</caption>
+
+<thead><tr style="overflow-wrap:break-word;"><th class="cl-fedbff7e"><p class="cl-fedbff7d"><span class="cl-fedbff7c">Inf_1_kilo</span></p></th><th class="cl-fedbff7f"><p class="cl-fedbff7d"><span class="cl-fedbff7c">Nombre_de_strates</span></p></th><th class="cl-fedbff80"><p class="cl-fedbff7d"><span class="cl-fedbff7c">Pourcentage</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-fedbff81"><p class="cl-fedbff7d"><span class="cl-fedbff7c">FALSE</span></p></td><td class="cl-fedbff82"><p class="cl-fedbff7d"><span class="cl-fedbff7c">313</span></p></td><td class="cl-fedbff83"><p class="cl-fedbff7d"><span class="cl-fedbff7c">57.96</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-fedbff84"><p class="cl-fedbff7d"><span class="cl-fedbff7c">TRUE</span></p></td><td class="cl-fedbff85"><p class="cl-fedbff7d"><span class="cl-fedbff7c">227</span></p></td><td class="cl-fedbff86"><p class="cl-fedbff7d"><span class="cl-fedbff7c">42.04</span></p></td></tr></tbody></table></div>
+<p>Parmi toutes les strates qui ont des données en nombre et en tonnes, on constate qu’il y a 227 strates pour lesquelles il faudrait un facteur de conversion de moins de 1 kilos pour ne pas dépasser les géoreferencées pour une comparaison engin/espèces/année/pavillon. Cela représente 42% des strates pour lesquelles des facteurs de conversion sont inférieures à 1 kilos ça ne permet pas d’infirmer ou de confirmer l’hypothèse que les strates no/mt sont celles qui posent problème (on aurait pu la confirmer si tous les facteurs de conversion étaient inférieures à 1 kilos).</p>
+<div class="tabwid"><style>.cl-09546a5d{}.cl-09546a52{font-family:'DejaVu Sans';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-09546a53{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-09546a54{width:0.124in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09546a55{width:0.22in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09546a56{width:0.156in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09546a57{width:0.124in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09546a58{width:0.22in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09546a59{width:0.156in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09546a5a{width:0.124in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09546a5b{width:0.22in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09546a5c{width:0.156in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-09546a5d'>
+
+<caption style="display:table-caption;margin:0pt;text-align:center;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:3pt;padding-bottom:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;">
+<span id="tab:unnamed-chunk-45">Table 2.4: </span><span>Number of strata inferior/superior to 1 kilo for analysisspecies, year, fishing_fleet</span>
+</caption>
+
+<thead><tr style="overflow-wrap:break-word;"><th class="cl-09546a54"><p class="cl-09546a53"><span class="cl-09546a52">Inf_1_kilo</span></p></th><th class="cl-09546a55"><p class="cl-09546a53"><span class="cl-09546a52">Nombre_de_strates</span></p></th><th class="cl-09546a56"><p class="cl-09546a53"><span class="cl-09546a52">Pourcentage</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-09546a57"><p class="cl-09546a53"><span class="cl-09546a52">FALSE</span></p></td><td class="cl-09546a58"><p class="cl-09546a53"><span class="cl-09546a52">458</span></p></td><td class="cl-09546a59"><p class="cl-09546a53"><span class="cl-09546a52">67.85</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-09546a5a"><p class="cl-09546a53"><span class="cl-09546a52">TRUE</span></p></td><td class="cl-09546a5b"><p class="cl-09546a53"><span class="cl-09546a52">217</span></p></td><td class="cl-09546a5c"><p class="cl-09546a53"><span class="cl-09546a52">32.15</span></p></td></tr></tbody></table></div>
+<p>Même en s’affranchissant de l’engin (dimension qui posait problème précédemment), il y a toujours environ 32% de facteurs de conversion qui sont inférieurs à 1 kilos.</p>
+<div class="tabwid"><style>.cl-1ea86b00{}.cl-1ea86ae8{font-family:'DejaVu Sans';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-1ea86ae9{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-1ea86aea{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-1ea86aeb{width:0.856in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86aec{width:0.723in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86aed{width:1.063in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86aee{width:1.16in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86aef{width:1.848in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86af0{width:1.458in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86af1{width:0.998in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86af2{width:0.856in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86af3{width:0.723in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86af4{width:1.063in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86af5{width:1.16in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86af6{width:1.848in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86af7{width:1.458in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86af8{width:0.998in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86af9{width:0.856in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86afa{width:0.723in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86afb{width:1.063in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86afc{width:1.16in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86afd{width:1.848in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86afe{width:1.458in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86aff{width:0.998in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-1ea86b00'><thead><tr style="overflow-wrap:break-word;"><th class="cl-1ea86aeb"><p class="cl-1ea86ae9"><span class="cl-1ea86ae8">species</span></p></th><th class="cl-1ea86aec"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">year</span></p></th><th class="cl-1ea86aed"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">no</span></p></th><th class="cl-1ea86aee"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">t</span></p></th><th class="cl-1ea86aef"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">measurement_value</span></p></th><th class="cl-1ea86af0"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">raising_factors</span></p></th><th class="cl-1ea86af1"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">Inf_1_kilo</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-1ea86af2"><p class="cl-1ea86ae9"><span class="cl-1ea86ae8">ALB</span></p></td><td class="cl-1ea86af3"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">1,989</span></p></td><td class="cl-1ea86af4"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">2,020,858</span></p></td><td class="cl-1ea86af5"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">20,980.283</span></p></td><td class="cl-1ea86af6"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">21,985.154</span></p></td><td class="cl-1ea86af7"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">0.0004972499</span></p></td><td class="cl-1ea86af8"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1ea86af2"><p class="cl-1ea86ae9"><span class="cl-1ea86ae8">ALB</span></p></td><td class="cl-1ea86af3"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">1,992</span></p></td><td class="cl-1ea86af4"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">1,645,705</span></p></td><td class="cl-1ea86af5"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">22,346.327</span></p></td><td class="cl-1ea86af6"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">22,994.368</span></p></td><td class="cl-1ea86af7"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">0.0003937774</span></p></td><td class="cl-1ea86af8"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1ea86af2"><p class="cl-1ea86ae9"><span class="cl-1ea86ae8">ALB</span></p></td><td class="cl-1ea86af3"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">1,993</span></p></td><td class="cl-1ea86af4"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">1,803,969</span></p></td><td class="cl-1ea86af5"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">25,526.430</span></p></td><td class="cl-1ea86af6"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">20,645.133</span></p></td><td class="cl-1ea86af7"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">-0.0027058655</span></p></td><td class="cl-1ea86af8"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1ea86af2"><p class="cl-1ea86ae9"><span class="cl-1ea86ae8">SWO</span></p></td><td class="cl-1ea86af3"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">1,991</span></p></td><td class="cl-1ea86af4"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">120,822</span></p></td><td class="cl-1ea86af5"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">9,112.163</span></p></td><td class="cl-1ea86af6"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">9,017.891</span></p></td><td class="cl-1ea86af7"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">-0.0007802531</span></p></td><td class="cl-1ea86af8"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1ea86af9"><p class="cl-1ea86ae9"><span class="cl-1ea86ae8">SWO</span></p></td><td class="cl-1ea86afa"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">1,992</span></p></td><td class="cl-1ea86afb"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">231,192</span></p></td><td class="cl-1ea86afc"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">20,211.762</span></p></td><td class="cl-1ea86afd"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">15,286.912</span></p></td><td class="cl-1ea86afe"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">-0.0213019925</span></p></td><td class="cl-1ea86aff"><p class="cl-1ea86aea"><span class="cl-1ea86ae8">TRUE</span></p></td></tr></tbody></table></div>
+<p>Pour une analyse espèces/années il y a tout de même 5 trates pour lesquels il faudrait un facteur de conversion moyen de moins de 1 kilos pour ne pas dépasser les nominales, 3 d’entre elles sont celles qui sont déjà supérieurs en géoreferencées qu’en nominal mais deux autres strates sont donc ajoutées.</p>
+<p>On note que 75% des strates no/mt doivent avoir un facteur de conversion de moins de 10 kilos, pour ne pas dépasser les nominales.</p>
+<div class="tabwid"><style>.cl-1ea86b0c{}.cl-1ea86b01{font-family:'DejaVu Sans';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-1ea86b02{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-1ea86b03{width:0.124in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86b04{width:0.22in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86b05{width:0.156in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86b06{width:0.124in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86b07{width:0.22in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86b08{width:0.156in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86b09{width:0.124in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86b0a{width:0.22in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1ea86b0b{width:0.156in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-1ea86b0c'>
+
+<caption style="display:table-caption;margin:0pt;text-align:center;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:3pt;padding-bottom:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;">
+<span id="tab:unnamed-chunk-48">Table 2.5: </span><span>Number of strata inferior/superior to 10 kilos for analysisspecies, year, fishing_fleet, gear_type</span>
+</caption>
+
+<thead><tr style="overflow-wrap:break-word;"><th class="cl-1ea86b03"><p class="cl-1ea86b02"><span class="cl-1ea86b01">Inf_1_kilo</span></p></th><th class="cl-1ea86b04"><p class="cl-1ea86b02"><span class="cl-1ea86b01">Nombre_de_strates</span></p></th><th class="cl-1ea86b05"><p class="cl-1ea86b02"><span class="cl-1ea86b01">Pourcentage</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-1ea86b06"><p class="cl-1ea86b02"><span class="cl-1ea86b01">FALSE</span></p></td><td class="cl-1ea86b07"><p class="cl-1ea86b02"><span class="cl-1ea86b01">139</span></p></td><td class="cl-1ea86b08"><p class="cl-1ea86b02"><span class="cl-1ea86b01">25.74</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1ea86b09"><p class="cl-1ea86b02"><span class="cl-1ea86b01">TRUE</span></p></td><td class="cl-1ea86b0a"><p class="cl-1ea86b02"><span class="cl-1ea86b01">401</span></p></td><td class="cl-1ea86b0b"><p class="cl-1ea86b02"><span class="cl-1ea86b01">74.26</span></p></td></tr></tbody></table></div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="première-partie-données-géoreferencées-supérieures-aux-données-nominales-avec-ou-sans-correspondance.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="annexes.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="site_libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="site_libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="site_libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="site_libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="site_libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="site_libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="site_libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="site_libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": false,
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+}
+});
+});
+</script>
+
+</body>
+
+</html>
