@@ -9,43 +9,41 @@ output:
 ```{r setup, include=FALSE}
 
 knitr::opts_chunk$set(echo = FALSE)
-source("~/firms-gta/iotc_report/minor_recap.R")
+# 
 ```
 
-### Analysis of spatial differences
+
+Code https://github.com/bastienird/iotc_report/minor_recap.R et https://github.com/bastienird/iotc_report/about.R
+
+# Analysis of spatial differences
 
 
 ```{r}
 empreinte_diff <- rbind(rbind(iotc_groupped%>% dplyr::filter(!identical_groups) %>% dplyr::filter(!geo_no_in_geo_t & !geo_t_in_geo_no) %>% dplyr::mutate(kesako = "Pas d'inclusion")%>% dplyr::slice_head(n=1), iotc_groupped%>% dplyr::filter(!identical_groups)%>% dplyr::filter(geo_t_in_geo_no)%>% dplyr::mutate(kesako = "Tonnes incluses dans nombre")%>% dplyr::slice_head(n=1)), iotc_groupped%>% dplyr::filter(!identical_groups)%>% dplyr::filter(geo_no_in_geo_t)%>% dplyr::slice_head(n=1) %>% dplyr::mutate(kesako = "Nombre inclus dans tonnnes"))%>% dplyr::mutate(geo_t = paste(geo_t), geo_no = paste(geo_no))
 ```
 
-
-```{r}
-
-qflextable2(empreinte_diff, "Données avec empreinte spatiale différentes (3 exemples)")
-
+```{r spatial-differences, results='asis'}
+cat(sprintf("Percentage of strata with different spatial footprints (in percentage of double united stratas): %.2f%%\n\n", diff_percent))
+cat(sprintf("Percentage where tons are within numbers (in percentage of double united stratas): %.2f%%\n\n", diff_t_in_no))
+cat(sprintf("Percentage where numbers are within tons (in percentage of double united stratas): %.2f%%\n\n", diff_no_in_t))
+cat(sprintf("Percentage with completely different spatial footprints (in percentage of double united stratas): %.2f%%\n\n", partial_diff))
 ```
 
 
-```{r spatial-differences}
 
-cat("Percentage of strata with different spatial footprints (in percentage of double united stratas):", diff_percent, "%\n")
-cat("Percentage where tons are within numbers (in percentage of double united stratas):", diff_t_in_no, "%\n")
-cat("Percentage where numbers are within tons (in percentage of double united stratas):", diff_no_in_t, "%\n")
-cat("Percentage with completely different spatial footprints (in percentage of double united stratas):", partial_diff, "%\n")
+# Pareil en aggrégeant les données de 1 en 5 deg
 
-```
-
-### Pareil en aggrégeant les données de 1 en 5 deg
-
-Ca change un peu mais pas grand chose
+Ca ne permet pas d'expliquer la majorité des différences
 
 ```{r spatial-differences, results='asis'}
 
-cat("Percentage of strata with different spatial footprints (in percentage of double united stratas):", diff_percent_agg, "%\n")
-cat("Percentage where tons are within numbers (in percentage of double united stratas):", diff_t_in_no_agg, "%\n")
-cat("Percentage where numbers are within tons (in percentage of double united stratas):", diff_no_in_t_agg, "%\n")
-cat("Percentage with completely different spatial footprints (in percentage of double united stratas):", partial_diff_agg, "%\n")
+
+cat(sprintf("Percentage of strata with different spatial footprints (in percentage of double united stratas): %.2f%%\n\n", diff_percent_agg))
+cat(sprintf("Percentage where tons are within numbers (in percentage of double united stratas): %.2f%%\n\n", diff_t_in_no_agg))
+cat(sprintf("Percentage where numbers are within tons (in percentage of double united stratas): %.2f%%\n\n", diff_no_in_t_agg))
+cat(sprintf("Percentage with completely different spatial footprints (in percentage of double united stratas): %.2f%%\n\n", partial_diff_agg))
+
+
 
 ```
 
@@ -63,6 +61,7 @@ datatable2 <- function(df, options = list(scrollX = TRUE), ...) {
 iotc_groupped <- iotc_groupped %>% dplyr::mutate(geo_t = paste(geo_t), geo_no = paste(geo_no)) %>% dplyr::filter(!identical_groups)
 ```
 
+# Empreintes spatiales différentes strates uniquement
 
 ```{r fig.cap="Empreintes spatiales différentes strates uniquement"}
 
@@ -81,7 +80,6 @@ qflextable2(lvl0_strata$`species, year`$georef_sup_nominal, captionn = "Strates 
 
 On note que pour ces données il y a des données en nombre qui pourraient être converties.  
 
-
 # Données georef sup nom (uniquement les strates espèces/années/fishing_fleet)
 
 ```{r fig.cap="Georef_sup_nom especes/annees/fishing_fleet juste strate de groupement"}
@@ -90,3 +88,10 @@ datatable2(georef_sup_nom_st_ff %>% dplyr::arrange(desc(Difference)))
 
 ```
 
+# Annexe pour vérification des données aux empreintes différentes
+
+```{r}
+
+qflextable2(empreinte_diff, "Données avec empreinte spatiale différentes (3 exemples)")
+
+```
