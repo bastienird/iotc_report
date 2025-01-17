@@ -1,0 +1,42 @@
+---
+title: "Conclusion on duplicated strata and georef sup to nom"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+author:
+  - name: Bastien Grasset
+    email: bastien.grasset@ird.fr
+    affiliation:
+      - IRD
+      - MARBEC
+  - name: Julien Barde
+    affiliation:
+      - IRD
+      - MARBEC
+address:
+  - code: IRD
+    address: Institut de Recherche pour le Développement (IRD), av. Jean Monnet, CS 30171, 34203 Sète cédex, France
+  - code: MARBEC
+    address: MARBEC, University of Montpellier, CNRS, Ifremer, IRD, Sète, France
+csl: dmk-format.csl
+link-citations: TRUE
+output:
+  bookdown::html_document2:
+    number_sections: true
+abstract: "This document is based on the precedent analysis of the repository. https://github.com/bastienird/iotc_report. Followed by discussions with IOTC some conclusion have been thrown."
+geometry: "margin=20mm"
+---
+
+# About data georeferenced exceeding nominal
+
+Nominal data is the reference, for level 2 dataset a lowering of georeferenced data has to be made. 
+
+# About strata in georeferenced not appearing in nominal
+
+As some are aggregation or resulting from a desaggregation in nominal and not in georeferenced, we will try to produce a desaggregated data for georeferenced data to match nominal. 
+
+# About strata with double units but spatial footprint not matching
+
+The duplication of a strata is to take in account the geographic_identifier. Then the duplicated stratas will be removed and the not duplicated are kept and then converted. Following work to analysis this new treatment is to be done. 
+
+
+
+
