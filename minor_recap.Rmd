@@ -75,6 +75,9 @@ datatable2(iotc_groupped %>% dplyr::select(time_start, fishing_fleet, species, g
 
 Leur nombre représente `r round(diff_percent,2)`% du nombre total de strates à doubles unités.
 
+Plus de détail et vérifications en [annexe](#fig-Comparaison_NC_RC_ALB)
+
+
 # Captures géoreferencées dépssant les captures nominales
 
 ## Strates espèces/années
@@ -96,7 +99,7 @@ Cela représente `r round(pourcentage_de_donnes_meme_annee_espece_tonnes,2)` % d
 
 On note que pour ces données il y a en plus des données en nombre qui pourraient être converties.  
 
-Verification graphique en annexe [Comparaison_NC_RC_ALB](#fig-Comparaison_NC_RC_ALB)
+Verification graphique en annexe [plot de comparaison](#fig-Comparaison_NC_RC_ALB)
 
 ## Strates espèces/années/fishing_fleet
 
@@ -116,20 +119,6 @@ Cela représente `r round(pourcentage_de_donnes_meme_annee_espece_tonnes_ff,2)` 
 
 # Annexes
 
-## Verification des calculs d'empreintes spatiales différentes
-
-```{r include=FALSE}
-
-empreinte_diff <- rbind(rbind(iotc_groupped%>% dplyr::filter(!identical_groups) %>% dplyr::filter(!geo_no_in_geo_t & !geo_t_in_geo_no) %>% dplyr::mutate(kesako = "Pas d'inclusion")%>% dplyr::slice_head(n=1), iotc_groupped%>% dplyr::filter(!identical_groups)%>% dplyr::filter(geo_t_in_geo_no)%>% dplyr::mutate(kesako = "Tonnes incluses dans nombre")%>% dplyr::slice_head(n=1)), iotc_groupped%>% dplyr::filter(!identical_groups)%>% dplyr::filter(geo_no_in_geo_t)%>% dplyr::slice_head(n=1) %>% dplyr::mutate(kesako = "Nombre inclus dans tonnnes"))%>% dplyr::mutate(geo_t = paste(geo_t), geo_no = paste(geo_no))
-
-```
-
-```{r}
-
-qflextable2(empreinte_diff, "Données avec empreinte spatiale différentes (3 exemples)")
-
-```
-
 ## Vérification de la cohérence georef_sup_nom graphiquement
 
 ```{r}
@@ -138,7 +127,7 @@ plot <- rbind(nominal%>% dplyr::filter(species %in% c("ALB")) %>% dplyr::mutate(
 
 <a id="fig-Comparaison_NC_RC_ALB"></a>
 
-```{r Comparaison_NC_RC_ALB, fig.cap = "Measurement_value by year for ALB species, comparison between NC and RC"}
+```{r fig.cap = "Measurement_value by year for ALB species, comparison between NC and RC"}
 ggplot(plot, aes(x = year, y = measurement_value, color = measurement_type)) +
   geom_line(size = 1) +
   geom_point(size = 2) +
@@ -156,6 +145,22 @@ ggplot(plot, aes(x = year, y = measurement_value, color = measurement_type)) +
 ```
 
 On confirme qu'en 93 il y a une inversion de la courbe de différence.
+
+## Verification des calculs d'empreintes spatiales différentes
+
+```{r include=FALSE}
+
+empreinte_diff <- rbind(rbind(iotc_groupped%>% dplyr::filter(!identical_groups) %>% dplyr::filter(!geo_no_in_geo_t & !geo_t_in_geo_no) %>% dplyr::mutate(kesako = "Pas d'inclusion")%>% dplyr::slice_head(n=1), iotc_groupped%>% dplyr::filter(!identical_groups)%>% dplyr::filter(geo_t_in_geo_no)%>% dplyr::mutate(kesako = "Tonnes incluses dans nombre")%>% dplyr::slice_head(n=1)), iotc_groupped%>% dplyr::filter(!identical_groups)%>% dplyr::filter(geo_no_in_geo_t)%>% dplyr::slice_head(n=1) %>% dplyr::mutate(kesako = "Nombre inclus dans tonnnes"))%>% dplyr::mutate(geo_t = paste(geo_t), geo_no = paste(geo_no))
+
+```
+
+<a id="fig-Empreinte_diff"></a>
+
+```{r}
+
+qflextable2(empreinte_diff, "Données avec empreinte spatiale différentes (3 exemples)")
+
+```
 
 ## Analyses sur la représentativité des strates à doubles unités ayant des empreintes spatiales différentes
 
