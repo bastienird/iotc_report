@@ -1,50 +1,54 @@
 ---
-title: "Analysis of spatial footprints in IOTC Data"
-author: "Bastien"
-date: "`r Sys.Date()`"
+title: "Recap of of spatial footprints in IOTC Data and georeferenced data superior to nominal"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+author:
+  - name: Bastien Grasset
+    email: bastien.grasset@ird.fr
+    affiliation:
+      - IRD
+      - MARBEC
+  - name: Julien Barde
+    affiliation:
+      - IRD
+      - MARBEC
+address:
+  - code: IRD
+    address: Institut de Recherche pour le Développement (IRD), av. Jean Monnet, CS 30171, 34203 Sète cédex, France
+  - code: MARBEC
+    address: MARBEC, University of Montpellier, CNRS, Ifremer, IRD, Sète, France
+csl: dmk-format.csl
+link-citations: TRUE
 output:
-  html_document:
+  bookdown::html_document2:
+    number_sections: true
+abstract: "This document provide an overview of issues with understanding the link between gereferenced data and nominal data as well as data with multiple units for IOTC 2024 datasets. Code for runnning the analysis:  https://github.com/bastienird/iotc_report/minor_recap.R and https://github.com/bastienird/iotc_report/about.R"
+geometry: "margin=20mm"
+papersize: a4
+endfloat: FALSE
+numberlines: FALSE
+authblk: FALSE
+footnotehyper: FALSE
+urlcolor: blue
+linkcolor: blue
+citecolor: blue
+graphics: TRUE
+tables: TRUE
+fancyhdr:
+  first:
+    headleft: "IOTC data analysis recap"
+    headright: "2023"
+    headrulewidth: 0pt
+  subsequent:
+    headleft: "IOTC data analysis recap"
+    headright: "2023"
+    headrulewidth: 1pt
+    footrulewidth: 0pt
 ---
 
 ```{r setup, include=FALSE}
 
 knitr::opts_chunk$set(echo = FALSE)
 # 
-```
-
-
-Code https://github.com/bastienird/iotc_report/minor_recap.R et https://github.com/bastienird/iotc_report/about.R
-
-# Analysis of spatial differences
-
-
-```{r}
-empreinte_diff <- rbind(rbind(iotc_groupped%>% dplyr::filter(!identical_groups) %>% dplyr::filter(!geo_no_in_geo_t & !geo_t_in_geo_no) %>% dplyr::mutate(kesako = "Pas d'inclusion")%>% dplyr::slice_head(n=1), iotc_groupped%>% dplyr::filter(!identical_groups)%>% dplyr::filter(geo_t_in_geo_no)%>% dplyr::mutate(kesako = "Tonnes incluses dans nombre")%>% dplyr::slice_head(n=1)), iotc_groupped%>% dplyr::filter(!identical_groups)%>% dplyr::filter(geo_no_in_geo_t)%>% dplyr::slice_head(n=1) %>% dplyr::mutate(kesako = "Nombre inclus dans tonnnes"))%>% dplyr::mutate(geo_t = paste(geo_t), geo_no = paste(geo_no))
-```
-
-```{r spatial-differences, results='asis'}
-cat(sprintf("Percentage of strata with different spatial footprints (in percentage of double united stratas): %.2f%%\n\n", diff_percent))
-cat(sprintf("Percentage where tons are within numbers (in percentage of double united stratas): %.2f%%\n\n", diff_t_in_no))
-cat(sprintf("Percentage where numbers are within tons (in percentage of double united stratas): %.2f%%\n\n", diff_no_in_t))
-cat(sprintf("Percentage with completely different spatial footprints (in percentage of double united stratas): %.2f%%\n\n", partial_diff))
-```
-
-
-
-# Pareil en aggrégeant les données de 1 en 5 deg
-
-Ca ne permet pas d'expliquer la majorité des différences
-
-```{r spatial-differences, results='asis'}
-
-
-cat(sprintf("Percentage of strata with different spatial footprints (in percentage of double united stratas): %.2f%%\n\n", diff_percent_agg))
-cat(sprintf("Percentage where tons are within numbers (in percentage of double united stratas): %.2f%%\n\n", diff_t_in_no_agg))
-cat(sprintf("Percentage where numbers are within tons (in percentage of double united stratas): %.2f%%\n\n", diff_no_in_t_agg))
-cat(sprintf("Percentage with completely different spatial footprints (in percentage of double united stratas): %.2f%%\n\n", partial_diff_agg))
-
-
-
 ```
 
 ```{r}
@@ -61,16 +65,20 @@ datatable2 <- function(df, options = list(scrollX = TRUE), ...) {
 iotc_groupped <- iotc_groupped %>% dplyr::mutate(geo_t = paste(geo_t), geo_no = paste(geo_no)) %>% dplyr::filter(!identical_groups)
 ```
 
-# Empreintes spatiales différentes strates uniquement
+# Strates à double unité avec empreintes spatiales différentes
 
-```{r fig.cap="Empreintes spatiales différentes strates uniquement"}
+```{r, empreintes, fig.cap="Strates à doubles unités avec empreintes spatiales différentes (100 premières sur 970)"}
 
 datatable2(iotc_groupped %>% dplyr::select(time_start, fishing_fleet, species, gear_type) %>% dplyr::distinct())
 
 ```
 
-# Données georef sup nom (strates espèces/années)
 
+Leur nombre représente `r round(diff_percent,2)`% du nombre total de strates à doubles unités.
+
+# Données georeferenced superior to nominal data 
+
+## Strates espèces/années
 
 ```{r}
 
@@ -78,9 +86,21 @@ qflextable2(lvl0_strata$`species, year`$georef_sup_nominal, captionn = "Strates 
 
 ```
 
-On note que pour ces données il y a des données en nombre qui pourraient être converties.  
 
-# Données georef sup nom (uniquement les strates espèces/années/fishing_fleet)
+```{r}
+
+pourcentage_de_donnes_meme_annee_espece_tonnes <- sum(lvl0_strata$`species, year`$georef_sup_nominal$Difference)*100/ sum((level0 %>% dplyr::semi_join(lvl0_strata$`species, year`$georef_sup_nominal) %>% dplyr::filter(measurement_unit == "t"))$measurement_value)
+
+```
+
+
+Cela représente `r round(pourcentage_de_donnes_meme_annee_espece_tonnes,2)` % des captures des strates équivalentes en tonnes.
+
+On note que pour ces données il y a en plus des données en nombre qui pourraient être converties.  
+
+Verification graphique en annexe [Comparaison_NC_RC_ALB](#fig-Comparaison_NC_RC_ALB)
+
+## Strates espèces/années/fishing_fleet
 
 ```{r fig.cap="Georef_sup_nom especes/annees/fishing_fleet juste strate de groupement"}
 
@@ -88,10 +108,106 @@ datatable2(georef_sup_nom_st_ff %>% dplyr::arrange(desc(Difference)))
 
 ```
 
-# Annexe pour vérification des données aux empreintes différentes
+```{r}
+
+pourcentage_de_donnes_meme_annee_espece_tonnes_ff <- sum(lvl0_strata$`species, year, fishing_fleet`$georef_sup_nominal$Difference)*100/ sum((level0 %>% dplyr::semi_join(lvl0_strata$`species, year, fishing_fleet`$georef_sup_nominal) %>% dplyr::filter(measurement_unit == "t"))$measurement_value)
+
+```
+
+Cela représente `r round(pourcentage_de_donnes_meme_annee_espece_tonnes_ff,2)` % des captures des strates équivalentes en tonnes.
+
+# Annexes
+
+## Tableau pour vérification des calculs d'empreintes spatiales différentes
+
+```{r include=FALSE}
+
+empreinte_diff <- rbind(rbind(iotc_groupped%>% dplyr::filter(!identical_groups) %>% dplyr::filter(!geo_no_in_geo_t & !geo_t_in_geo_no) %>% dplyr::mutate(kesako = "Pas d'inclusion")%>% dplyr::slice_head(n=1), iotc_groupped%>% dplyr::filter(!identical_groups)%>% dplyr::filter(geo_t_in_geo_no)%>% dplyr::mutate(kesako = "Tonnes incluses dans nombre")%>% dplyr::slice_head(n=1)), iotc_groupped%>% dplyr::filter(!identical_groups)%>% dplyr::filter(geo_no_in_geo_t)%>% dplyr::slice_head(n=1) %>% dplyr::mutate(kesako = "Nombre inclus dans tonnnes"))%>% dplyr::mutate(geo_t = paste(geo_t), geo_no = paste(geo_no))
+
+```
 
 ```{r}
 
 qflextable2(empreinte_diff, "Données avec empreinte spatiale différentes (3 exemples)")
 
 ```
+
+## Vérification de la cohérence georef_sup_nom graphiquement
+
+```{r}
+plot <- rbind(nominal%>% dplyr::filter(species %in% c("ALB")) %>% dplyr::mutate(year = lubridate::year(time_start))%>% dplyr::group_by(year,measurement_type) %>% dplyr::summarise(measurement_value = sum(measurement_value)), iotc %>% dplyr::filter(measurement_unit == "t") %>% dplyr::filter(species %in% c("ALB"))%>% dplyr::mutate(year = lubridate::year(time_start))%>% dplyr::group_by(year,measurement_type) %>% dplyr::summarise(measurement_value = sum(measurement_value) ))%>% dplyr::group_by(year, measurement_type) %>% dplyr::summarise(measurement_value = sum(measurement_value))
+```
+
+<a id="fig-Comparaison_NC_RC_ALB"></a>
+
+```{r Comparaison_NC_RC_ALB, fig.cap = "Measurement_value by year for ALB species, comparison between NC and RC"}
+ggplot(plot, aes(x = year, y = measurement_value, color = measurement_type)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  labs(
+    title = "Measurement value by year for ALB species",
+    x = "Year",
+    y = "Measurement value",
+    color = "Measurement type"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    legend.position = "bottom"
+  )
+```
+
+On confirme qu'en 93 il y a une inversion de la courbe de différence.
+
+## Code empreinte spatiale 
+
+```{r echo=TRUE}
+# iotc_groupped <- iotc %>%
+#   dplyr::group_by(time_start, fishing_fleet, species, gear_type) %>% 
+#   # on regarde pour chaque strate l'emrepeinte spatiale des tonnes et des nombres
+#   dplyr::summarise(
+#     geo_t = list(unique(geographic_identifier[measurement_unit == "t"])),
+#     geo_no = list(unique(geographic_identifier[measurement_unit == "no"])),
+#     .groups = "drop"
+#   ) %>%
+#   # Supprimer les lignes où geo_t ou geo_no est NULL ou vide car ce sont des lignes ou il n'y a pas de doublon no/t
+#   dplyr::rowwise() %>%
+#   dplyr::filter(
+#     !(is.null(geo_t) || is.null(geo_no) || length(geo_t) == 0 || length(geo_no) == 0)
+#   ) %>%
+#   # on regarde les empreintes spatiales identiques ou incluses l'une dans l'autre
+#   dplyr::mutate(
+#     identical_groups = setequal(geo_t, geo_no),
+#     geo_t_in_geo_no = all(geo_t %in% geo_no),
+#     geo_no_in_geo_t = all(geo_no %in% geo_t)
+#   )%>%
+#   # dplyr::filter(!identical_groups) %>%
+#   ungroup() %>% 
+#   dplyr::distinct()
+```
+
+## Petites analyses sur la représentativité des strates à doubles unités ayant des empreintes spatiales différentes
+
+Les pourcentages suivants sont effectué sur la base du nombre de strates ayant une double unité.
+
+```{r spatial-differences, results='asis'}
+cat(sprintf("Percentage of strata with different spatial footprints : %.2f%%\n\n", diff_percent))
+cat(sprintf("Percentage where tons are within numbers : %.2f%%\n\n", diff_t_in_no))
+cat(sprintf("Percentage where numbers are within tons : %.2f%%\n\n", diff_no_in_t))
+cat(sprintf("Percentage with completely different spatial footprints : %.2f%%\n\n", partial_diff))
+```
+
+## Analyse de l'empreinte spatiale after aggregating data 1 deg to 5 deg (hypothesis of number provided with different resolution for same catch)
+
+```{r spatial-differences, results='asis'}
+
+
+cat(sprintf("Percentage of strata with different spatial footprints : %.2f%%\n\n", diff_percent_agg))
+cat(sprintf("Percentage where tons are within numbers : %.2f%%\n\n", diff_t_in_no_agg))
+cat(sprintf("Percentage where numbers are within tons : %.2f%%\n\n", diff_no_in_t_agg))
+cat(sprintf("Percentage with completely different spatial footprints : %.2f%%\n\n", partial_diff_agg))
+
+```
+
+Ca ne permet pas d'expliquer la majorité des différences
+
