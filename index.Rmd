@@ -234,13 +234,13 @@ if (!file.exists(here::here("data/global_catch_firms_level0_harmonized.csv"))) {
       level0 <- readr::read_csv(here::here("data/global_catch_firms_level0_harmonized.csv"))
 }
 
-nominal <- nominal_init%>% dplyr::filter(source_authority == "IOTC") %>% dplyr::filter(species %in% c("ALB", "BET", "YFT", "SKJ", "SWO", "TUN", "TUS", "BIL")) #%>% dplyr::select(-source_authority)
-lvl0 <-level0 %>% dplyr::filter(source_authority == "IOTC")%>% dplyr::filter(species %in% c("ALB", "BET", "YFT", "SKJ", "SWO", "TUN", "TUS", "BIL")) #%>% dplyr::select(-source_authority)
+# nominal <- nominal_init%>% dplyr::filter(source_authority == "IOTC") %>% dplyr::filter(species %in% c("ALB", "BET", "YFT", "SKJ", "SWO", "TUN", "TUS", "BIL")) #%>% dplyr::select(-source_authority)
+# lvl0 <-level0 %>% dplyr::filter(source_authority == "IOTC")%>% dplyr::filter(species %in% c("ALB", "BET", "YFT", "SKJ", "SWO", "TUN", "TUS", "BIL")) #%>% dplyr::select(-source_authority)
 
 
 list_stratalist <- list(c("species", "year"), c("species", "year", "gear_type"),  c("species", "year", "gear_type", "fishing_fleet"), c("species", "year", "fishing_fleet"))
 
-lvl0_strata <- compare_nominal_georef_corrected(nominal , lvl0, list_strata = list_stratalist)
+lvl0_strata <- compare_nominal_georef_corrected(nominal_init , level0, list_strata = list_stratalist)
 
 lvl0_strata$`species, year`$sum_georef_no_nominal # 268 976.6
 lvl0_strata$`species, year`$sum_georef_sup_nom #9900.419

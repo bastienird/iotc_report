@@ -323,16 +323,16 @@ mapping_codelist <-map_codelists_no_DB("catch", mapping_dataset = "https://raw.g
                                        mapping_keep_src_code = FALSE, summary_mapping = TRUE, source_authority_to_map = c("ICCAT")) 
 
 
-IOTC_conv_fact_mapped <- mapping_codelist$dataset_mapped 
+data_trfmo_conv_fact_mapped <- mapping_codelist$dataset_mapped 
     
-IOTC_conv_fact_mapped <- IOTC_conv_fact_mapped %>% 
+data_trfmo_conv_fact_mapped <- data_trfmo_conv_fact_mapped %>% 
           dplyr::mutate(gear_type = as.character(gear_type), time_start = as.character(time_start)) %>% 
           dplyr::mutate(year = as.character(lubridate::year(time_start))) %>% dplyr::rename(conversion_factors = measurement_value)  %>% dplyr::mutate(time_end = as.character(time_end))%>%  dplyr::mutate(geographic_identifier = as.character(geographic_identifier)) %>% dplyr::select(-measurement_unit) %>% dplyr::mutate(conversion_factors = round(conversion_factors, 6)) %>% dplyr::distinct()
 
-IOTC_conv_fact_mapped_not_distinct <- IOTC_conv_fact_mapped %>% dplyr::group_by(across(-conversion_factors)) %>%
+data_trfmo_conv_fact_mapped_not_distinct <- data_trfmo_conv_fact_mapped %>% dplyr::group_by(across(-conversion_factors)) %>%
     dplyr::mutate(not_distinct = n_distinct(conversion_factors)) %>% dplyr::arrange(desc(not_distinct)) %>% dplyr::filter(not_distinct != 1)
 
-IOTC_conv_fact_mapped <- IOTC_conv_fact_mapped %>% dplyr::group_by(across(-conversion_factors))%>% dplyr::summarise(conversion_factors = min(conversion_factors))
+data_trfmo_conv_fact_mapped <- data_trfmo_conv_fact_mapped %>% dplyr::group_by(across(-conversion_factors))%>% dplyr::summarise(conversion_factors = min(conversion_factors))
 
 
 lvl0_conv <- lvl0 %>% 
@@ -344,7 +344,7 @@ lvl0_tons <- lvl0_conv %>% dplyr::filter(measurement_unit == "t")
 
 # On convertit que les données en nombre. Donc on prends ces données et on cherche pour chaque strate 'time_start, engin, species, geographic_identifier' s'il y a un facteur de conversion. S'il y en a un, on multiplie la valeur en nombre par le facteur de conversion et on obtient une valeur en tonnes.
 
-lvl0_number <- lvl0_conv  %>% dplyr::filter(measurement_unit == "no") %>% dplyr::inner_join(IOTC_conv_fact_mapped, by = c("source_authority", "time_start", "time_end", "geographic_identifier","gear_type", "species", "fishing_mode")) %>% 
+lvl0_number <- lvl0_conv  %>% dplyr::filter(measurement_unit == "no") %>% dplyr::inner_join(data_trfmo_conv_fact_mapped, by = c("source_authority", "time_start", "time_end", "geographic_identifier","gear_type", "species", "fishing_mode")) %>% 
           dplyr::mutate(measurement_value = measurement_value * conversion_factors) %>% 
           dplyr::mutate(measurement_unit = "t") %>% 
           dplyr::select(colnames(lvl0)) 
@@ -368,7 +368,7 @@ lvl0_strata_upgraded <- compare_nominal_georef_corrected(nominal , lvl0_upgraded
         lvl0_onlytons_and_number_tons <- lvl0_conv_n_only %>% dplyr::filter(!(measurement_unit == "no" & numberunit ==1))%>% 
           dplyr::select(colnames(lvl0_conv_n_only)) %>% dplyr::filter(measurement_unit != "no")
         
-        only_number_raised <- lvl0_onlynumber%>% dplyr::inner_join(IOTC_conv_fact_mapped, by = c("source_authority", "time_start", "time_end", "geographic_identifier","gear_type", "species", "fishing_mode")) %>% 
+        only_number_raised <- lvl0_onlynumber%>% dplyr::inner_join(data_trfmo_conv_fact_mapped, by = c("source_authority", "time_start", "time_end", "geographic_identifier","gear_type", "species", "fishing_mode")) %>% 
           dplyr::mutate(measurement_value = measurement_value * conversion_factors) %>% 
           dplyr::mutate(measurement_unit = "t") %>% 
           dplyr::select(colnames(lvl0_conv_n_only))

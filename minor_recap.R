@@ -39,9 +39,9 @@ if (!file.exists(here::here("data/global_catch_firms_level0_harmonized.csv"))) {
   level0 <- readr::read_csv(here::here("data/global_catch_firms_level0_harmonized.csv"))
 }
 
-iotc <- level0 %>% dplyr::filter(source_authority == "ICCAT")
+data_trfmo <- level0 %>% dplyr::filter(source_authority == "ICCAT")
 # Grouper et filtrer les données
-iotc_groupped <- iotc %>%
+data_trfmo_groupped <- data_trfmo %>%
   dplyr::group_by(time_start, fishing_fleet, species, gear_type) %>% 
   # on regarde pour chaque strate l'emrepeinte spatiale des tonnes et des nombres
   dplyr::summarise(
@@ -64,13 +64,13 @@ iotc_groupped <- iotc %>%
   ungroup() %>% 
   dplyr::distinct()
 
-# View(iotc_groupped)
+# View(data_trfmo_groupped)
 
 
-diff_percent <- (nrow(iotc_groupped %>% dplyr::filter(!identical_groups)) * 100) / nrow(iotc_groupped)
-diff_t_in_no <- (nrow(iotc_groupped %>% dplyr::filter(!identical_groups) %>% dplyr::filter(geo_t_in_geo_no)) * 100) / nrow(iotc_groupped %>% dplyr::filter(!identical_groups))
-diff_no_in_t <- (nrow(iotc_groupped %>% dplyr::filter(!identical_groups) %>% dplyr::filter(geo_no_in_geo_t)) * 100) / nrow(iotc_groupped %>% dplyr::filter(!identical_groups))
-partial_diff <- (nrow(iotc_groupped %>% dplyr::filter(!identical_groups) %>% dplyr::filter(!geo_no_in_geo_t & !geo_t_in_geo_no)) * 100) / nrow(iotc_groupped %>% dplyr::filter(!identical_groups))
+diff_percent <- (nrow(data_trfmo_groupped %>% dplyr::filter(!identical_groups)) * 100) / nrow(data_trfmo_groupped)
+diff_t_in_no <- (nrow(data_trfmo_groupped %>% dplyr::filter(!identical_groups) %>% dplyr::filter(geo_t_in_geo_no)) * 100) / nrow(data_trfmo_groupped %>% dplyr::filter(!identical_groups))
+diff_no_in_t <- (nrow(data_trfmo_groupped %>% dplyr::filter(!identical_groups) %>% dplyr::filter(geo_no_in_geo_t)) * 100) / nrow(data_trfmo_groupped %>% dplyr::filter(!identical_groups))
+partial_diff <- (nrow(data_trfmo_groupped %>% dplyr::filter(!identical_groups) %>% dplyr::filter(!geo_no_in_geo_t & !geo_t_in_geo_no)) * 100) / nrow(data_trfmo_groupped %>% dplyr::filter(!identical_groups))
 
 # 7% des strates en tonnes et en nombre ont une empreinte spatiale différente
 # 5 % de ces données différentes ont l'empreinte spatiale des tonnes qui est incluses dans celle des nombres (tonnes plus petites que nombre en empreinte) 
@@ -83,17 +83,17 @@ partial_diff <- (nrow(iotc_groupped %>% dplyr::filter(!identical_groups) %>% dpl
 # Possibilité, différence d'aggrégation 
 # On refait pareil en aggrégant la donnée 1 deg en 5 deg. 
 source("https://raw.githubusercontent.com/firms-gta/geoflow-tunaatlas/master/sardara_functions/transform_cwp_code_from_1deg_to_5deg.R")
-one_degree <- iotc %>% dplyr::filter(substr(geographic_identifier, 1, 1) == "5")
-five_degree <- iotc %>% dplyr::filter(substr(geographic_identifier, 1, 1) == "6")
+one_degree <- data_trfmo %>% dplyr::filter(substr(geographic_identifier, 1, 1) == "5")
+five_degree <- data_trfmo %>% dplyr::filter(substr(geographic_identifier, 1, 1) == "6")
 one_degree_aggregated <- one_degree %>% rowwise() %>% 
   dplyr::mutate(geographic_identifier = transform_cwp_code_from_1deg_to_5deg(geographic_identifier))
 
 # df_input_not_aggregated <- georef_dataset %>% dplyr::filter(is.null(geographic_identifier))
 # fwrite(df_input_not_aggregated, "data/df_input_not_aggregated.csv")
 
-iotc_agg <- as.data.frame(base::rbind(one_degree_aggregated, five_degree))
+data_trfmo_agg <- as.data.frame(base::rbind(one_degree_aggregated, five_degree))
 
-iotc_groupped_agg <- iotc_agg %>%
+data_trfmo_groupped_agg <- data_trfmo_agg %>%
   dplyr::group_by(time_start, fishing_fleet, species, gear_type) %>% 
   # on regarde pour chaque strate l'emrepeinte spatiale des tonnes et des nombres
   dplyr::summarise(
@@ -116,26 +116,26 @@ iotc_groupped_agg <- iotc_agg %>%
   ungroup() %>% 
   dplyr::distinct()
 
-# View(iotc_groupped)
+# View(data_trfmo_groupped)
 
-diff_percent_agg <- (nrow(iotc_groupped_agg %>% dplyr::filter(!identical_groups)) * 100) / nrow(iotc_groupped_agg)
-diff_t_in_no_agg <- (nrow(iotc_groupped_agg %>% dplyr::filter(!identical_groups) %>% dplyr::filter(geo_t_in_geo_no)) * 100) / nrow(iotc_groupped_agg %>% dplyr::filter(!identical_groups))
-diff_no_in_t_agg <- (nrow(iotc_groupped_agg %>% dplyr::filter(!identical_groups) %>% dplyr::filter(geo_no_in_geo_t)) * 100) / nrow(iotc_groupped_agg %>% dplyr::filter(!identical_groups))
-partial_diff_agg <- (nrow(iotc_groupped_agg %>% dplyr::filter(!identical_groups) %>% dplyr::filter(!geo_no_in_geo_t & !geo_t_in_geo_no)) * 100) / nrow(iotc_groupped_agg %>% dplyr::filter(!identical_groups))
+diff_percent_agg <- (nrow(data_trfmo_groupped_agg %>% dplyr::filter(!identical_groups)) * 100) / nrow(data_trfmo_groupped_agg)
+diff_t_in_no_agg <- (nrow(data_trfmo_groupped_agg %>% dplyr::filter(!identical_groups) %>% dplyr::filter(geo_t_in_geo_no)) * 100) / nrow(data_trfmo_groupped_agg %>% dplyr::filter(!identical_groups))
+diff_no_in_t_agg <- (nrow(data_trfmo_groupped_agg %>% dplyr::filter(!identical_groups) %>% dplyr::filter(geo_no_in_geo_t)) * 100) / nrow(data_trfmo_groupped_agg %>% dplyr::filter(!identical_groups))
+partial_diff_agg <- (nrow(data_trfmo_groupped_agg %>% dplyr::filter(!identical_groups) %>% dplyr::filter(!geo_no_in_geo_t & !geo_t_in_geo_no)) * 100) / nrow(data_trfmo_groupped_agg %>% dplyr::filter(!identical_groups))
 
-(nrow(iotc_groupped_agg%>%dplyr::filter(!identical_groups) ) * 100) /nrow(iotc_groupped_agg)
+(nrow(data_trfmo_groupped_agg%>%dplyr::filter(!identical_groups) ) * 100) /nrow(data_trfmo_groupped_agg)
 
 # 6% des strates en tonnes et en nombre ont une empreinte spatiale différente
 
 
-(nrow(iotc_groupped_agg%>%dplyr::filter(!identical_groups)%>%dplyr::filter(geo_t_in_geo_no) ) * 100) /nrow(iotc_groupped_agg%>%dplyr::filter(!identical_groups))
+(nrow(data_trfmo_groupped_agg%>%dplyr::filter(!identical_groups)%>%dplyr::filter(geo_t_in_geo_no) ) * 100) /nrow(data_trfmo_groupped_agg%>%dplyr::filter(!identical_groups))
 # 5.6 % de ces données différentes ont l'empreinte spatiale des tonnes qui est incluses dans celle des nombres (tonnes plus petites que nombre en empreinte) 
 
-(nrow(iotc_groupped_agg%>%dplyr::filter(!identical_groups)%>%dplyr::filter(geo_no_in_geo_t) ) * 100) /nrow(iotc_groupped_agg%>%dplyr::filter(!identical_groups))
+(nrow(data_trfmo_groupped_agg%>%dplyr::filter(!identical_groups)%>%dplyr::filter(geo_no_in_geo_t) ) * 100) /nrow(data_trfmo_groupped_agg%>%dplyr::filter(!identical_groups))
 # 94% % de ces données différentes ont l'empreinte spatiale des nombres qui est incluses dans celle des tonnes 
 
 
-(nrow(iotc_groupped_agg%>%dplyr::filter(!identical_groups)%>%dplyr::filter(!geo_no_in_geo_t & !geo_t_in_geo_no) ) * 100) /nrow(iotc_groupped_agg%>%dplyr::filter(!identical_groups))
+(nrow(data_trfmo_groupped_agg%>%dplyr::filter(!identical_groups)%>%dplyr::filter(!geo_no_in_geo_t & !geo_t_in_geo_no) ) * 100) /nrow(data_trfmo_groupped_agg%>%dplyr::filter(!identical_groups))
 # le rest 0.26 % ont des empreintes spatiales juste différente ou aucune n'est incluse complètement dans l'autre.
 
 
@@ -149,7 +149,7 @@ partial_diff_agg <- (nrow(iotc_groupped_agg %>% dplyr::filter(!identical_groups)
 # 
 # ######### compare georef_nominal 
 # 
-# nominal <- nominal_init%>% dplyr::filter(source_authority == "IOTC")
+# nominal <- nominal_init%>% dplyr::filter(source_authority == "data_trfmo")
 # 
 # compare_nominal_georef_corrected <- function(nominal, georef_mapped, list_strata = list(c("species", "year", "source_authority", "gear_type", "fishing_fleet"))) {
 #   # Convertir les data.frames en data.tables
@@ -252,7 +252,7 @@ partial_diff_agg <- (nrow(iotc_groupped_agg %>% dplyr::filter(!identical_groups)
 #   return(results)
 # }
 # 
-# compare_nominal_georef <- compare_nominal_georef_corrected(nominal, iotc,list(c("species", "year", "gear_type", "fishing_fleet"), c("species", "year", "fishing_fleet")))
+# compare_nominal_georef <- compare_nominal_georef_corrected(nominal, data_trfmo,list(c("species", "year", "gear_type", "fishing_fleet"), c("species", "year", "fishing_fleet")))
 # compare_nominal_georef$`species, year, gear_type, fishing_fleet`$georef_sup_nominal %>% dplyr::group_by(fishing_fleet) %>% dplyr::summarise(t = n()) %>% dplyr::arrange(desc(t))
 # # C'est surtout pour LKA et TWN puis AUS mais on retrouve aussi EUFRA.
 # 

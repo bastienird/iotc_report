@@ -1,0 +1,241 @@
+---
+title: "Overview of georeferenced data exceeding nominal in ICCAT records"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+author:
+  - name: Bastien Grasset
+    email: bastien.grasset@ird.fr
+    affiliation:
+      - IRD
+      - MARBEC
+  - name: Julien Barde
+    affiliation:
+      - IRD
+      - MARBEC
+address:
+  - code: IRD
+    address: Institut de Recherche pour le Développement (IRD), av. Jean Monnet, CS 30171, 34203 Sète cédex, France
+  - code: MARBEC
+    address: MARBEC, University of Montpellier, CNRS, Ifremer, IRD, Sète, France
+csl: dmk-format.csl
+link-citations: TRUE
+output:
+  bookdown::html_document2:
+    number_sections: true
+abstract: "This document provides an analysis overview of the link between georeferenced and nominal data based on ICCAT 2024 records. Code used for the analysis is available at: https://github.com/bastienird/iotc_report/minor_recap.R and https://github.com/bastienird/iotc_report/about.R The purpose of this report is to highlight discrepancies in the datasets and seek clarification on which data should be considered the most reliable. Specifically, it addresses whether georeferenced data should be adjusted to align with nominal data, or vice versa, and whether these differences stem from variations in data aggregation or disaggregation processes."
+geometry: "margin=20mm"
+papersize: a4
+endfloat: FALSE
+numberlines: FALSE
+authblk: FALSE
+footnotehyper: FALSE
+urlcolor: blue
+linkcolor: blue
+citecolor: blue
+graphics: TRUE
+tables: TRUE
+fancyhdr:
+  first:
+    headleft: "ICCAT data analysis recap"
+    headright: "2023"
+    headrulewidth: 0pt
+  subsequent:
+    headleft: "ICCAT data analysis recap"
+    headright: "2023"
+    headrulewidth: 1pt
+    footrulewidth: 0pt
+---
+
+```{r setup, include=FALSE}
+
+base::options(knitr.duplicate.label = "allow")
+
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r}
+datatable2 <- function(df, options = list(scrollX = TRUE), ...) {
+  df[] <- lapply(df, function(x) if (is.numeric(x)) round(x, 3) else x)
+  df <- df %>% head(100)
+  options <- modifyList(list(scrollX = TRUE), options)
+  
+  DT::datatable(df, options = options, ...)
+}
+
+data_trfmo_groupped <- data_trfmo_groupped %>% 
+  dplyr::mutate(geo_t = paste(geo_t), geo_no = paste(geo_no)) %>% 
+  dplyr::filter(!identical_groups)
+```
+
+<!-- # strata with multiple units and differing spatial footprints -->
+
+<!-- ```{r, empreintes, fig.cap="Strata with multiple units and differing spatial footprints (first 100 out of 970)"} -->
+
+<!-- datatable2(data_trfmo_groupped %>% dplyr::select(time_start, fishing_fleet, species, gear_type) %>% dplyr::distinct()) -->
+<!-- ``` -->
+
+<!-- Their count represents `r round(diff_percent, 2)`% of the total number of strata with multiple units. -->
+
+<!-- More details and verification in [appendix](#fig-comparison-nc-rc-alb). -->
+
+---
+
+# Georeferenced catches exceeding nominal catches
+
+## Species/year strata
+
+```{r}
+
+qflextable2(lvl0_strata$`species, year`$georef_sup_nominal, captionn = "Strata with georeferenced catches exceeding nominal catches for species/year comparison")
+```
+
+```{r}
+
+percentage_same_year_species_tons <- sum(lvl0_strata$`species, year`$georef_sup_nominal$Difference) * 100 / 
+  sum((level0 %>% dplyr::semi_join(lvl0_strata$`species, year`$georef_sup_nominal) %>% dplyr::filter(measurement_unit == "t"))$measurement_value)
+```
+
+This represents `r round(percentage_same_year_species_tons, 2)`% of catches for the equivalent strata in tons. Some of this strata concern data that is aggregated in lower resolution species group, however could it be possible to precise the data in nominal that is in lower resolution (spatial and temporal) to correspond to the equivalent data in georeferenced (i.e increasing the data for a specific species and decreasing it in the correspondent group). However, for the majority of the years the data superior in georeferenced than in nominal cannot be explain by the aggregation of tunas in TUN/TUS.
+
+Graphical verification in the [comparison plot](#fig-comparison-nc-rc-alb).
+
+
+NB: Additionally, there are data in numbers that could potentially be converted.
+
+---
+
+## species/year/fishing_fleet strata
+
+If we add the dimension "fishing_fleet" to compare the two datasets, the number of strata concerned increase.
+
+```{r fig.cap="Georeferenced catches exceeding nominal catches for species/year/fishing_fleet strata"}
+
+datatable2(georef_sup_nom_st_ff %>% dplyr::arrange(desc(Difference)))
+
+```
+
+```{r}
+
+percentage_same_year_species_tons_ff <- sum(lvl0_strata$`species, year, fishing_fleet`$georef_sup_nominal$Difference) * 100 / 
+  sum((level0 %>% dplyr::semi_join(lvl0_strata$`species, year, fishing_fleet`$georef_sup_nominal) %>% dplyr::filter(measurement_unit == "t"))$measurement_value)
+
+```
+
+This represents `r round(percentage_same_year_species_tons_ff, 2)`% of catches for the equivalent strata in tons.
+
+---
+
+# Appendices
+
+## Graphical verification of georef_sup_nom consistency
+
+```{r}
+plot <- rbind(
+  nominal %>% 
+    dplyr::filter(species %in% c("ALB")) %>% 
+    dplyr::mutate(year = lubridate::year(time_start)) %>% 
+    dplyr::group_by(year, measurement_type) %>% 
+    dplyr::summarise(measurement_value = sum(measurement_value)),
+  data_trfmo %>% 
+    dplyr::filter(measurement_unit == "t") %>% 
+    dplyr::filter(species %in% c("ALB")) %>% 
+    dplyr::mutate(year = lubridate::year(time_start)) %>% 
+    dplyr::group_by(year, measurement_type) %>% 
+    dplyr::summarise(measurement_value = sum(measurement_value))
+)
+```
+
+<a id="fig-comparison-nc-rc-alb"></a>
+
+```{r fig.cap = "Measurement value by year for ALB species, comparison between NC and RC"}
+
+ggplot(plot, aes(x = year, y = measurement_value, color = measurement_type)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  labs(
+    title = "Measurement value by year for ALB species",
+    x = "Year",
+    y = "Measurement value",
+    color = "Measurement type"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    legend.position = "bottom"
+  )
+```
+
+We confirm that in for several years, there is an inversion in the difference curve.
+
+---
+
+<!-- ## Calculations for differing spatial footprints -->
+
+<!-- ```{r include=FALSE} -->
+
+<!-- spatial_diff <- rbind( -->
+<!--   data_trfmo_groupped %>% dplyr::filter(!identical_groups) %>% dplyr::filter(!geo_no_in_geo_t & !geo_t_in_geo_no) %>% dplyr::mutate(type = "No inclusion") %>% dplyr::slice_head(n = 1), -->
+<!--   data_trfmo_groupped %>% dplyr::filter(!identical_groups) %>% dplyr::filter(geo_t_in_geo_no) %>% dplyr::mutate(type = "Tons within numbers") %>% dplyr::slice_head(n = 1), -->
+<!--   data_trfmo_groupped %>% dplyr::filter(!identical_groups) %>% dplyr::filter(geo_no_in_geo_t) %>% dplyr::mutate(type = "Numbers within tons") %>% dplyr::slice_head(n = 1) -->
+<!-- ) %>%  -->
+<!--   dplyr::mutate(geo_t = paste(geo_t), geo_no = paste(geo_no)) -->
+<!-- ``` -->
+
+<!-- <a id="fig-spatial-diff"></a> -->
+
+<!-- ```{r} -->
+
+<!-- qflextable2(spatial_diff, captionn = "Data with differing spatial footprints (3 examples)") -->
+<!-- ``` -->
+
+<!-- --- -->
+<!-- # -->
+<!-- # ## Representativity analysis for multiple-unit strata with differing spatial footprints -->
+<!-- # -->
+<!-- # The following percentages are based on the number of strata with multiple units. -->
+<!-- # -->
+<!-- # ```{r spatial-differences, results='asis'} -->
+<!-- # cat(sprintf("Percentage of strata with differing spatial footprints: %.2f%%\n\n", diff_percent)) -->
+<!-- # cat(sprintf("Percentage where tons are within numbers: %.2f%%\n\n", diff_t_in_no)) -->
+<!-- # cat(sprintf("Percentage where numbers are within tons: %.2f%%\n\n", diff_no_in_t)) -->
+<!-- # cat(sprintf("Percentage with completely different spatial footprints: %.2f%%\n\n", partial_diff)) -->
+<!-- # ``` -->
+<!-- # -->
+<!-- # --- -->
+<!-- # -->
+<!-- # ## spatial footprint after aggregation (1 deg to 5 deg) -->
+<!-- # -->
+<!-- # ```{r spatial-differences-aggregation, results='asis'} -->
+<!-- # cat(sprintf("Percentage of strata with differing spatial footprints: %.2f%%\n\n", diff_percent_agg)) -->
+<!-- # cat(sprintf("Percentage where tons are within numbers: %.2f%%\n\n", diff_t_in_no_agg)) -->
+<!-- # cat(sprintf("Percentage where numbers are within tons: %.2f%%\n\n", diff_no_in_t_agg)) -->
+<!-- # cat(sprintf("Percentage with completely different spatial footprints: %.2f%%\n\n", partial_diff_agg)) -->
+<!-- # ``` -->
+<!-- # -->
+<!-- # This does not explain most of the differences. -->
+<!-- # -->
+<!-- # --- -->
+<!-- # -->
+<!-- # ## spatial footprint code -->
+<!-- # -->
+<!-- # ```{r echo=TRUE} -->
+<!-- # # data_trfmo_groupped <- data_trfmo %>% -->
+<!-- # #   dplyr::group_by(time_start, fishing_fleet, species, gear_type) %>% -->
+<!-- # #   dplyr::summarise( -->
+<!-- # #     geo_t = list(unique(geographic_identifier[measurement_unit == "t"])), -->
+<!-- # #     geo_no = list(unique(geographic_identifier[measurement_unit == "no"])), -->
+<!-- # #     .groups = "drop" -->
+<!-- # #   ) %>% -->
+<!-- # #   dplyr::rowwise() %>% -->
+<!-- # #   dplyr::filter( -->
+<!-- # #     !(is.null(geo_t) || is.null(geo_no) || length(geo_t) == 0 || length(geo_no) == 0) -->
+<!-- # #   ) %>% -->
+<!-- # #   dplyr::mutate( -->
+<!-- # #     identical_groups = setequal(geo_t, geo_no), -->
+<!-- # #     geo_t_in_geo_no = all(geo_t %in% geo_no), -->
+<!-- # #     geo_no_in_geo_t = all(geo_no %in% geo_t) -->
+<!-- # #   )%>% -->
+<!-- # #   ungroup() %>% -->
+<!-- # #   dplyr::distinct() -->
+
+<!-- ``` -->
+
